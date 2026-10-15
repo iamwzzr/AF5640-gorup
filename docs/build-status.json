@@ -1,0 +1,79 @@
+{
+  "project": "AF5640-gorup",
+  "date": "2026-10-15",
+  "status": "implemented_and_running_locally",
+  "frontend": "React + TypeScript + Vite",
+  "backend": "FastAPI + Decimal",
+  "database": false,
+  "automated_test_suite": false,
+  "checks": [
+    "TypeScript and Vite production build",
+    "Python source compilation",
+    "Shell startup script syntax",
+    "HTTP health and both supplied synthetic scenarios",
+    "Browser: load example, validate, reconcile, holder evidence, ZIP download"
+  ],
+  "scenario_results": {
+    "core": {
+      "holder_count": 5,
+      "payment_row_count": 6,
+      "unique_payment_count": 6,
+      "duplicate_row_count": 0,
+      "expected_total": "800.000000",
+      "confirmed_total": "870.000000",
+      "matched_confirmed_total": "870.000000",
+      "unmatched_confirmed_total": "0.000000",
+      "pending_total": "0.000000",
+      "shortfall_total": "170.000000",
+      "overpayment_total": "240.000000",
+      "net_difference": "70.000000",
+      "rounding_adjustment": "0.000000",
+      "affected_holder_count": 3,
+      "issue_count": 3
+    },
+    "edge": {
+      "holder_count": 6,
+      "payment_row_count": 8,
+      "unique_payment_count": 7,
+      "duplicate_row_count": 1,
+      "expected_total": "100.000000",
+      "confirmed_total": "104.999999",
+      "matched_confirmed_total": "104.999999",
+      "unmatched_confirmed_total": "0.000000",
+      "pending_total": "15.000000",
+      "shortfall_total": "25.000001",
+      "overpayment_total": "30.000000",
+      "net_difference": "4.999999",
+      "rounding_adjustment": "0.000000",
+      "affected_holder_count": 5,
+      "issue_count": 5
+    }
+  },
+  "report_download_files": [
+    "holders.csv",
+    "anomalies.csv",
+    "payment_ledger.csv",
+    "summary.json",
+    "rules.json"
+  ],
+  "local_url": "http://127.0.0.1:8000",
+  "limitations": [
+    "Uploaded statuses are not live-chain verified",
+    "No persistent history: refresh requires uploading again",
+    "One project, one batch, one EVM network and one six-decimal payment asset per run",
+    "No payment execution or production validation"
+  ],
+  "source_sha256": {
+    "backend/app/__init__.py": "427e3f9c42042a0cc570f3f775ee43b2daae33fececa976fd6dfede0ae8df211",
+    "backend/app/engine.py": "882a4d150c5a0ced462033c94553fe5152283f6abda581050d3cf107fe2bbe30",
+    "backend/app/export.py": "9ef9e8a634d85e0fd82766b0f7c079ae343040ba4e321154e961805fc1c571f8",
+    "backend/app/main.py": "c16a90ef594d337d20b405539edadf3df727875e52e858caaf70ebab790d497e",
+    "backend/app/parser.py": "8c2db9f767a2714dc507267c7656098cfcf548e12893aa0450a366751c21faca",
+    "backend/app/schemas.py": "4c407b0096bd0506b8ec7f83c2d44b640b5b6c20d8ff5e88897d40bdddda1085",
+    "frontend/src/App.tsx": "88b4151d065087ee14eddc848f9b22dc4ea2a8091cd4e5f4f2cb0c2cce5c786b",
+    "frontend/src/api.ts": "4a456a3c2e079f70c2a1277bdf6f5b2f76cc78dd8c57f79176b155b7be937b4f",
+    "frontend/src/main.tsx": "e81aec37c1befe991a35934ed8b90b73e7262a01e4dffae60e1ce87967ff09b4",
+    "frontend/src/styles.css": "4c21d3ebb20e8a7cf6f460f912f82699697f77083121537808b78c5236e16444",
+    "frontend/src/types.ts": "931c6e8501f2e2b899efd142262669d7cb5b36ec7ce0223235ffc6c9c0a5757f"
+  }
+}

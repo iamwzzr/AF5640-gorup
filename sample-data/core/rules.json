@@ -1,0 +1,13 @@
+{
+  "project_id": "DEMO-BOND-01",
+  "project_name": "示例债券收益分配",
+  "batch_id": "2026-Q3",
+  "record_date": "2026-09-30",
+  "payment_due_at": "2026-10-10T18:00:00+08:00",
+  "as_of": "2026-10-15T12:00:00+08:00",
+  "payout_per_token": "0.200000",
+  "chain_id": "1",
+  "currency": "USDC",
+  "payment_token": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+  "synthetic": true
+}
