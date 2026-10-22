@@ -1,17 +1,24 @@
 {
   "project": "AF5640-gorup",
-  "date": "2026-10-15",
-  "status": "implemented_and_running_locally",
+  "date": "2026-10-22",
+  "status": "implemented_and_checked_locally",
   "frontend": "React + TypeScript + Vite",
   "backend": "FastAPI + Decimal",
   "database": false,
-  "automated_test_suite": false,
+  "automated_test_suite": true,
   "checks": [
-    "TypeScript and Vite production build",
-    "Python source compilation",
-    "Shell startup script syntax",
-    "HTTP health and both supplied synthetic scenarios",
-    "Browser: load example, validate, reconcile, holder evidence, ZIP download"
+    "39 backend business, parser, export and real HTTP regression tests",
+    "9 frontend API client and 10 frontend presentation regression tests using the Node test runner",
+    "TypeScript and Vite production build; shell startup script syntax",
+    "Three synthetic scenarios, including 100 holders: independent summary checks and mirrored files",
+    "Browser: three-step flow, collapsed advanced settings, Chinese previews and input validation gate",
+    "Browser: default review list, disjoint category counts, exact amounts, search, pagination and holder/payment filters",
+    "Browser: three evidence sections, expandable source records, full hashes, Escape closing and restored focus",
+    "Browser: readable report summary, retained table state and real ZIP download with five files and 10 manual review actions",
+    "Browser: invalid replacement, malformed CSV, input invalidation, delayed response, network failure and blocked HTML downloads",
+    "Browser: clean input and unpaid pre-deadline input through real file upload; invalid hidden settings revealed",
+    "Browser: 1440, 1024, 900, 820, 768, 390 and 360px layouts; mobile result cards and contained raw preview scrolling",
+    "2026-10-21 dependency checks: npm audit reported zero known frontend dependency vulnerabilities; pip check found no conflicts"
   ],
   "scenario_results": {
     "core": {
@@ -47,6 +54,23 @@
       "rounding_adjustment": "0.000000",
       "affected_holder_count": 5,
       "issue_count": 5
+    },
+    "comprehensive": {
+      "holder_count": 100,
+      "payment_row_count": 102,
+      "unique_payment_count": 101,
+      "duplicate_row_count": 1,
+      "expected_total": "1000.000000",
+      "confirmed_total": "977.999999",
+      "matched_confirmed_total": "967.999999",
+      "unmatched_confirmed_total": "10.000000",
+      "pending_total": "10.000000",
+      "shortfall_total": "42.000001",
+      "overpayment_total": "10.000000",
+      "net_difference": "-22.000001",
+      "rounding_adjustment": "0.000000",
+      "affected_holder_count": 8,
+      "issue_count": 10
     }
   },
   "report_download_files": [
@@ -64,16 +88,111 @@
     "No payment execution or production validation"
   ],
   "source_sha256": {
-    "backend/app/__init__.py": "427e3f9c42042a0cc570f3f775ee43b2daae33fececa976fd6dfede0ae8df211",
-    "backend/app/engine.py": "882a4d150c5a0ced462033c94553fe5152283f6abda581050d3cf107fe2bbe30",
-    "backend/app/export.py": "9ef9e8a634d85e0fd82766b0f7c079ae343040ba4e321154e961805fc1c571f8",
+    "README.md": "3b25d019b51189e6b44dad8974751235f7d5ff3c6eb7a7e73893cc1c34c83c46",
+    "backend/app/__init__.py": "2ff0b27d0b1fc3bfb482113f5861350c3af78a3b5383a6c781b1d722b912d0f8",
+    "backend/app/engine.py": "8da836c73c35b38173384db2bf766f532cdd37e4a9e65b2dd2346566461256be",
+    "backend/app/export.py": "0b548be57cf4458b9d0d7a1eb5e5e93f6bc8e41774a9d29c1683bf4a0e646369",
     "backend/app/main.py": "c16a90ef594d337d20b405539edadf3df727875e52e858caaf70ebab790d497e",
-    "backend/app/parser.py": "8c2db9f767a2714dc507267c7656098cfcf548e12893aa0450a366751c21faca",
-    "backend/app/schemas.py": "4c407b0096bd0506b8ec7f83c2d44b640b5b6c20d8ff5e88897d40bdddda1085",
-    "frontend/src/App.tsx": "88b4151d065087ee14eddc848f9b22dc4ea2a8091cd4e5f4f2cb0c2cce5c786b",
-    "frontend/src/api.ts": "4a456a3c2e079f70c2a1277bdf6f5b2f76cc78dd8c57f79176b155b7be937b4f",
+    "backend/app/parser.py": "b10d9bcb16bbf42d640fcf06d3bcb62f6cecb338be4d5d31f88d1c8d3fd26195",
+    "backend/app/schemas.py": "c13f7e3affd090963ef6a617231609510e8d8a3f49dee217ceb7a8c83200e618",
+    "backend/tests/test_api.py": "90933c56239765b7099d2d63fdf9e7e626496fd792fcbbfb70fc430cacd501ef",
+    "backend/tests/test_reconciliation.py": "d772a08de663bddabbdb8f36e5b4dc742553ae0667dcc5075465f631dd922eb9",
+    "docs/API_CONTRACT.md": "26adfda877dea3844977f3c4e16b241b9cef411a5b95d5640a728013060d5420",
+    "docs/PROJECT_CHECK.md": "5fd0f2b7c1cffafe5f9394cda3f263bd1de239e0bcaa92affc2b76eec4284346",
+    "docs/preview.jpg": "f7c71bad5e2ba3ef3f509068824838aee109f5ee952976fe8588def52a685c03",
+    "frontend/index.html": "92e30265bfb46d0edba92d3ba153a2f5dd2e2efa64874f643a6460afa749e17b",
+    "frontend/package-lock.json": "f2eb8d8fcb16d79a5668137267e4dc224a9e681d17bfa29bd352225c74898ead",
+    "frontend/package.json": "31a986cc35e982960db1221e8718d71e9a9c243e6b90932b5a39fd17e0470838",
+    "frontend/public/favicon.svg": "4ec0ec383321fb964658e4d80ee2216156fda27ffdb02ea533009789673b6733",
+    "frontend/src/App.tsx": "c877e09e92886af6304ed1f5bc05eade109c461c73fc1405ed618d09908d52db",
+    "frontend/src/api.ts": "194f42f983366d04f4206c23113996d7ba558d3dbf7b6f52a72b2d9a09e9ad52",
+    "frontend/src/components/Common.tsx": "cf66a3eb66e56bb5c3f4e9d6e2c34b92e504a1695c0ba071ad90b2c2dc36c957",
+    "frontend/src/components/EvidenceDialog.tsx": "85a053db39326f801eaecc0f42368e44c3008b1885d13133dac878b5fe6cca81",
+    "frontend/src/components/Inputs.tsx": "de99f67714d25d29ebfa3b5b8b25e6d132d4910d2877be02de6bd16e5dcf4ad1",
+    "frontend/src/components/ReportView.tsx": "7cbc831241ac137acdf4298907b5eb2a90878643ce16875559e03e6d81873407",
+    "frontend/src/components/ResultsView.tsx": "cf528668e31463bd3f3b3acec6b011daeb5df7849705ba0f5504b13143967f04",
     "frontend/src/main.tsx": "e81aec37c1befe991a35934ed8b90b73e7262a01e4dffae60e1ce87967ff09b4",
-    "frontend/src/styles.css": "4c21d3ebb20e8a7cf6f460f912f82699697f77083121537808b78c5236e16444",
-    "frontend/src/types.ts": "931c6e8501f2e2b899efd142262669d7cb5b36ec7ce0223235ffc6c9c0a5757f"
-  }
+    "frontend/src/presentation.ts": "30ef87aae1acd1cf34e2e28e068a86cb7312cb804e54fbff1a2906e3f48ebb6d",
+    "frontend/src/styles.css": "9c36ceefbd3a65ca430530315617bd783a873a776f2856a0e0a45cc5573392b3",
+    "frontend/src/types.ts": "8dd49fa220455649d0b4f4c54abc44e4a10c785581f26026794aac07ca93eb10",
+    "frontend/tests/api.test.mjs": "a36baa2745a83e8ee98700269ad034a1126d52b0ace43ab7220eaba9ac033700",
+    "frontend/tests/presentation.test.mjs": "a41dec6584c4284bfabfac331aba5502ebc3237ff55ce89b65286bd494364078",
+    "sample-data/manifest.json": "bd2c4c9c6d7a6be26ca0db2fe53d25d962f5f2be49e2d3e4d7efd3e93cba486b",
+    "scripts/check.sh": "f174afc5912c8b47b76e9986656a11821a719f2c63b92a1e81fdaea17df4b1e8",
+    "scripts/generate_examples.py": "efe2aa0eb2189582872249052ff21ab545531438297297c11ac6262a688a2b5b"
+  },
+  "version": "1.1.0",
+  "automated_tests": {
+    "backend": 39,
+    "frontend_api": 9,
+    "frontend_presentation": 10,
+    "total": 58,
+    "result": "passed",
+    "command": "./scripts/check.sh"
+  },
+  "fixed_issues": [
+    "Double rounding of the explanatory rounding adjustment",
+    "UTC date overflow escaping input validation",
+    "Subminute timezone offsets silently changing serialized rule timestamps",
+    "HTTP 200 HTML being downloaded as a ZIP report",
+    "Visible unknown-wallet labels missing from search and inconsistent whitespace handling",
+    "Unknown-wallet warnings generated from an invalid holder snapshot"
+  ],
+  "browser_checks": {
+    "comprehensive_workflow": "passed",
+    "report_download_and_contents": "passed",
+    "wrong_content_download_blocked": true,
+    "rule_edit_invalidates_result": true,
+    "invalid_replacement_removes_old_file": true,
+    "malformed_csv_blocks_reconciliation": true,
+    "slow_response_cannot_restore_obsolete_result": true,
+    "network_failure_is_readable": true,
+    "escape_closes_evidence": true,
+    "mobile_document_widths": [
+      {
+        "viewport": 390,
+        "document": 390
+      },
+      {
+        "viewport": 360,
+        "document": 360
+      }
+    ],
+    "uncaught_page_errors_in_checked_flows": 0,
+    "three_step_navigation": "passed",
+    "all_three_scenarios": "passed",
+    "default_review_list": true,
+    "issue_category_counts": {
+      "money": 6,
+      "identity": 1,
+      "status": 2,
+      "data": 1
+    },
+    "exact_small_amounts_visible": true,
+    "expandable_evidence_records": true,
+    "focus_restored_after_evidence": true,
+    "report_return_retains_table_state": true,
+    "invalid_collapsed_settings_revealed": true,
+    "clean_and_pre_deadline_states": "passed",
+    "mobile_result_cards": "passed",
+    "checked_viewport_widths": [
+      1440,
+      1024,
+      900,
+      820,
+      768,
+      390,
+      360
+    ],
+    "expected_console_errors": "One deliberate network failure was injected in the error-handling check"
+  },
+  "notes": "See docs/PROJECT_CHECK.md for scope, fixed issues, evidence and unimplemented capabilities.",
+  "ui_changes": [
+    "Three steps: settings, import, results",
+    "Business conclusion and three primary amounts before detailed records",
+    "Review issues first with subject, finding, next check and evidence",
+    "Progressive disclosure for network settings, amount composition, source records and report fingerprints",
+    "Readable report summary and five-file ZIP export",
+    "Responsive labelled result cards, visible focus and native modal evidence"
+  ]
 }

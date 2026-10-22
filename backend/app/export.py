@@ -7,7 +7,7 @@ import re
 from zipfile import ZIP_DEFLATED, ZipFile, ZipInfo
 
 HOLDER_HEADERS = ["holder_id", "wallet", "token_units", "source_row", "expected", "confirmed_paid", "pending_amount", "difference", "shortfall", "overpayment", "balance_status", "settlement_status", "issue_codes", "payment_refs", "explanation"]
-ANOMALY_HEADERS = ["id", "code", "severity", "holder_id", "wallet", "amount", "source_rows", "payment_refs", "message"]
+ANOMALY_HEADERS = ["id", "code", "severity", "holder_id", "wallet", "amount", "source_rows", "payment_refs", "message", "suggested_action"]
 LEDGER_HEADERS = ["source_row", "event_key", "tx_hash", "event_index", "to_wallet", "holder_id", "amount", "status", "included", "reason", "submitted_at", "confirmed_at"]
 
 

@@ -27,7 +27,7 @@ def rules(payout):
 
 
 def holder_rows(units):
-    return [["DEMO-BOND-01", "2026-09-30", chr(65+i), wallet(i+1), str(amount)]
+    return [["DEMO-BOND-01", "2026-09-30", chr(65+i) if len(units) <= 26 else f"H{i+1:03d}", wallet(i+1), str(amount)]
             for i, amount in enumerate(units)]
 
 
@@ -62,10 +62,27 @@ def main():
             payment(102, 2, "12.000000"), payment(103, 2, "8.000000"),
             payment(104, 3, "30.000000"), payment(105, 3, "30.000000"),
             payment(106, 4, "15.000000", "pending"), payment(107, 5, "14.999999")]
+    comprehensive = []
+    for recipient in range(1, 101):
+        number = 2000 + recipient * 10
+        if recipient == 1:
+            continue
+        if recipient == 3:
+            comprehensive.extend([payment(number, recipient, "10"), payment(number + 1, recipient, "10")])
+        elif recipient == 7:
+            comprehensive.extend([payment(number, recipient, "6"), payment(number + 1, recipient, "4")])
+        elif recipient == 8:
+            record = payment(number, recipient, "10")
+            comprehensive.extend([record, record.copy()])
+        else:
+            amount = "8" if recipient == 2 else "9.999999" if recipient == 9 else "10"
+            status = "pending" if recipient == 5 else "failed" if recipient == 6 else "confirmed"
+            comprehensive.append(payment(number, 1004 if recipient == 4 else recipient, amount, status))
     scenarios = []
     for key, name, description, units, payments, payout in [
         ("core", "收益分配示例", "5位持有人：少付、未付、超付与正常拆分付款。应付800，已确认870，个人不足额170。", [1000, 500, 800, 1200, 500], core, "0.200000"),
         ("edge", "付款状态与精度示例", "6位持有人：重复导入、待确认、合法拆分与0.000001的金额差异。", [100, 200, 300, 150, 150, 100], edge, "0.100000"),
+        ("comprehensive", "100人综合演示", "覆盖漏付、少付、超付、未知钱包、待确认、付款失败和重复导入，含正常拆分付款。", [100] * 100, comprehensive, "0.100000"),
     ]:
         batch = rules(payout)
         write_text(f"{key}/holders.csv", csv_text(HOLDER_HEADERS, holder_rows(units)))
@@ -77,7 +94,7 @@ def main():
     write_text("manifest.json", json.dumps({"synthetic": True, "scenarios": scenarios}, ensure_ascii=False, indent=2) + "\n")
     write_text("templates/holders.csv", csv_text(HOLDER_HEADERS, []))
     write_text("templates/payments.csv", csv_text(PAYMENT_HEADERS, []))
-    print("Generated two synthetic scenarios and CSV templates.")
+    print("Generated three synthetic scenarios and CSV templates.")
 
 
 if __name__ == "__main__":

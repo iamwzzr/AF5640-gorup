@@ -9,6 +9,15 @@ from .parser import ValidatedInputs
 from .schemas import AMOUNT_QUANTUM, money
 
 ZERO = Decimal(0)
+REVIEW_ACTIONS = {
+    "DUPLICATE_IMPORT": "核对重复行的来源。本报告已仅计入同一事件一次，无需据此撤销真实付款。",
+    "FAILED_PAYMENT": "先核实失败状态及其他付款记录，确认未到账金额后，再由授权人员决定是否重新付款。",
+    "UNMATCHED_WALLET": "核对记录日登记钱包、钱包变更依据及付款指令，确认收款方身份与所属批次。",
+    "OVERPAYMENT": "逐笔核对付款指令和交易事件，确认是否重复实付或口径错误，再经授权复核处理方案。",
+    "UNPAID": "核实是否存在未导入或尚未确认的付款，确认未付余额后，再由授权人员安排后续处理。",
+    "SHORT_PAYMENT": "核对付款金额、分配规则及其他付款记录，确认剩余不足额后，再经授权复核处理。",
+    "PENDING_PAYMENT": "先核实交易最终状态及是否已被替换或取消，避免在待确认期间重复补付。",
+}
 
 
 def reconcile(inputs: ValidatedInputs) -> dict:
@@ -55,6 +64,7 @@ def _reconcile_precise(inputs: ValidatedInputs) -> dict:
             "holder_id": holder["holder_id"] if holder else None, "wallet": wallet,
             "amount": money(amount) if amount is not None else None,
             "source_rows": source_rows, "payment_refs": refs, "message": message,
+            "suggested_action": REVIEW_ACTIONS[code],
         })
         if holder and code not in holder["issue_codes"]:
             holder["issue_codes"].append(code)
@@ -168,7 +178,9 @@ def _reconcile_precise(inputs: ValidatedInputs) -> dict:
             "matched_confirmed_total": money(matched_confirmed), "unmatched_confirmed_total": money(unmatched_confirmed),
             "pending_total": money(pending_total), "shortfall_total": money(shortfall_total),
             "overpayment_total": money(overpayment_total), "net_difference": money(confirmed_total - expected_total),
-            "rounding_adjustment": money(expected_total - unrounded_total),
+            # This explains the rounding itself and may be smaller than one
+            # payment unit. Rounding it again would change or hide the adjustment.
+            "rounding_adjustment": format(expected_total - unrounded_total, "f"),
             "affected_holder_count": sum(bool(holder["issue_codes"]) for holder in final_holders),
             "issue_count": len(anomalies),
         },

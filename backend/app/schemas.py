@@ -1,6 +1,6 @@
 """Input schema and canonical decimal/date helpers."""
 
-from datetime import date, datetime
+from datetime import date, datetime, timedelta, timezone
 from decimal import Decimal, ROUND_HALF_UP, localcontext
 import re
 
@@ -36,8 +36,15 @@ def aware_datetime(value: str) -> datetime:
         parsed = datetime.fromisoformat(value)
     except ValueError as exc:
         raise ValueError("时间格式无效，请使用带时区的 ISO 时间。") from exc
-    if parsed.tzinfo is None or parsed.utcoffset() is None:
+    offset = parsed.utcoffset()
+    if parsed.tzinfo is None or offset is None:
         raise ValueError("时间必须明确包含时区偏移，不能使用无时区时间。")
+    if offset % timedelta(minutes=1):
+        raise ValueError("时区偏移必须精确到整分钟，例如 +08:00 或 Z。")
+    try:
+        parsed.astimezone(timezone.utc)
+    except (ValueError, OverflowError) as exc:
+        raise ValueError("时间超出可支持的范围，请检查日期与时区。") from exc
     return parsed
 
 

@@ -14,7 +14,7 @@ export interface Holder {
 }
 export interface Anomaly {
   id: string; code: string; severity: 'warning' | 'review'; holder_id: string | null; wallet: string | null;
-  amount: string | null; source_rows: number[]; payment_refs: string[]; message: string;
+  amount: string | null; source_rows: number[]; payment_refs: string[]; message: string; suggested_action: string;
 }
 export interface Ledger {
   source_row: number; event_key: string; tx_hash: string; event_index: string | number;

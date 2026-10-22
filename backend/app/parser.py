@@ -98,7 +98,7 @@ def parse_rules(raw: str) -> tuple[Rules | None, list[dict]]:
 
     try:
         data = json.loads(raw, object_pairs_hook=unique_fields)
-    except (json.JSONDecodeError, ValueError):
+    except (json.JSONDecodeError, ValueError, RecursionError):
         return None, [issue("INVALID_JSON", "rules", None, None, "批次规则不是有效的 JSON 对象。")]
     if not isinstance(data, dict):
         return None, [issue("INVALID_RULES", "rules", None, None, "批次规则必须是 JSON 对象。")]
@@ -295,14 +295,20 @@ def validate_inputs(raw_rules: str, holders_data: bytes, holders_name: str, paym
     warnings: list[dict] = []
     holders = parse_csv(holders_data, holders_name, "holders", issues)
     payments = parse_csv(payments_data, payments_name, "payments", issues)
+    holders_valid = not any(item["file"] == "holders" for item in issues)
     if rules and set(holders.columns) == set(HOLDER_COLUMNS):
+        before = issue_count(issues)
         validate_holder_rows(holders, rules, issues)
+        holders_valid = holders_valid and issue_count(issues) == before
     if rules and set(payments.columns) == set(PAYMENT_COLUMNS):
         validate_payment_rows(payments, rules, issues, warnings)
-        known = {row["wallet"] for row in holders.rows}
-        for item in payments.rows:
-            if ADDRESS_RE.fullmatch(item["to_wallet"]) and item["to_wallet"] not in known:
-                warnings.append(issue("UNMATCHED_WALLET", "payments", item["_source_row"], "to_wallet", "收款钱包不在持有人快照中，将单列为待核实付款。"))
+        # An invalid/empty snapshot cannot establish that a recipient is unknown.
+        # Report the snapshot errors first instead of inventing unmatched wallets.
+        if holders_valid:
+            known = {row["wallet"] for row in holders.rows}
+            for item in payments.rows:
+                if ADDRESS_RE.fullmatch(item["to_wallet"]) and item["to_wallet"] not in known:
+                    warnings.append(issue("UNMATCHED_WALLET", "payments", item["_source_row"], "to_wallet", "收款钱包不在持有人快照中，将单列为待核实付款。"))
     if rules and not rules.synthetic:
         warnings.append(issue("USER_SUPPLIED_STATUS", "rules", None, "synthetic", "付款状态仅来自上传文件，系统未连接链上或验证交易真实性。"))
     return ValidatedInputs(rules, holders, payments, issues, warnings)
