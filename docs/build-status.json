@@ -7,7 +7,7 @@
   "database": false,
   "automated_test_suite": true,
   "checks": [
-    "39 backend business, parser, export and real HTTP regression tests",
+    "40 backend business, parser, export, real HTTP and published project evidence regression tests",
     "9 frontend API client and 11 frontend presentation regression tests using the Node test runner",
     "TypeScript and Vite production build; shell startup script syntax",
     "Three synthetic scenarios, including 100 holders: independent summary checks and mirrored files",
@@ -19,7 +19,11 @@
     "Browser: clean input and unpaid pre-deadline input through real file upload; invalid hidden settings revealed",
     "Browser: 1440, 1024, 900, 820, 768, 390 and 360px layouts; mobile result cards and contained raw preview scrolling",
     "2026-10-21 dependency checks: npm audit reported zero known frontend dependency vulnerabilities; pip check found no conflicts",
-    "2026-10-23 browser: everyday language on settings, import, results, lists, detail and report; technical identifiers hidden until expanded; all three demos and real ZIP download"
+    "2026-10-23 browser: everyday language on settings, import, results, lists, detail and report; technical identifiers hidden until expanded; all three demos and real ZIP download",
+    "2026-10-23 browser: seven project chapters, synthetic evidence labels, 10 issue choices, unknown-payment isolation and pending-payment guidance",
+    "2026-10-23 browser: presentation arrows and Escape, chapter deep links, reload/back, retained tool inputs/results/search/report across surface navigation; no uncaught page errors",
+    "2026-10-23 browser: all project chapters and tool settings/import/results/report checked at 1440, 1024, 820, 768, 390 and 360px; real ZIP download verified",
+    "2026-10-23 PDF: seven landscape A4 project chapters rendered and inspected, expanded sources restored after print, presentation-mode printing and hidden tool isolation"
   ],
   "scenario_results": {
     "core": {
@@ -89,7 +93,8 @@
     "No payment execution or production validation"
   ],
   "source_sha256": {
-    "README.md": "4fa291c647ba663684f0a48b3f98e17e6299e5658751652c30d2e7ece8959a2a",
+    ".gitignore": "16a31e048fcf6d250bf26303188ade6e297e7f65204f0c2da1bee0f5de35415e",
+    "README.md": "fb326d0b9f652ce0f2093da351fa858d3382c77909f1f58944da9856b2d19df4",
     "backend/app/__init__.py": "2ff0b27d0b1fc3bfb482113f5861350c3af78a3b5383a6c781b1d722b912d0f8",
     "backend/app/engine.py": "8da836c73c35b38173384db2bf766f532cdd37e4a9e65b2dd2346566461256be",
     "backend/app/export.py": "0b548be57cf4458b9d0d7a1eb5e5e93f6bc8e41774a9d29c1683bf4a0e646369",
@@ -97,15 +102,17 @@
     "backend/app/parser.py": "b10d9bcb16bbf42d640fcf06d3bcb62f6cecb338be4d5d31f88d1c8d3fd26195",
     "backend/app/schemas.py": "c13f7e3affd090963ef6a617231609510e8d8a3f49dee217ceb7a8c83200e618",
     "backend/tests/test_api.py": "90933c56239765b7099d2d63fdf9e7e626496fd792fcbbfb70fc430cacd501ef",
+    "backend/tests/test_project_evidence.py": "3b67967c5a1e2a5eaabcf68a269b7cf484a01a038ffa8750d45107fbcfd5a361",
     "backend/tests/test_reconciliation.py": "d772a08de663bddabbdb8f36e5b4dc742553ae0667dcc5075465f631dd922eb9",
-    "docs/API_CONTRACT.md": "ab4a445280136bfc9fcf1c4cb3989d51548d9e6dba848ea5be749392efed6725",
-    "docs/PROJECT_CHECK.md": "903cd8392d1a4096fd0aeb9d95fab9f1404551c1338f898e0200236bacbab513",
+    "docs/API_CONTRACT.md": "ae953314da28bea249d259e9f4d35b87b254d30f7af652bac3dcd3440d07520a",
+    "docs/PROJECT_CHECK.md": "67b3a66b7f59d21cc3aa21526a57cb8006e9827302085738fefe4bf52d781c3a",
     "docs/preview.jpg": "430805b11533a93513f467bcb42632d664848171ca883bf0e212c9e659413200",
+    "docs/project-story-preview.jpg": "34e2ec717597d33e3148f3953d5113f372cc3a1c653e515a89816948f05bcf5d",
     "frontend/index.html": "6dbcac5c3727f9d536e8a8c66df00c710c1656177161003dc1906fb2479d7e48",
     "frontend/package-lock.json": "f2eb8d8fcb16d79a5668137267e4dc224a9e681d17bfa29bd352225c74898ead",
     "frontend/package.json": "31a986cc35e982960db1221e8718d71e9a9c243e6b90932b5a39fd17e0470838",
     "frontend/public/favicon.svg": "4ec0ec383321fb964658e4d80ee2216156fda27ffdb02ea533009789673b6733",
-    "frontend/src/App.tsx": "dcfb01c60f1bcc88f8d7d3f083a23abfaba35ec8817ca65a248b9202d29c0a46",
+    "frontend/src/App.tsx": "4c0f025219101c167d011a92033d51e0d24dde72908da8437e467905048181dd",
     "frontend/src/api.ts": "cb724278664267fa124d5e19523db567948c42f06ab895acb399b272c069d8e9",
     "frontend/src/components/Common.tsx": "33add9e3bf7274645263990168a15c17f604b28eeee23ee7ffa39ef72b8a9c39",
     "frontend/src/components/EvidenceDialog.tsx": "59309727e3f9fbf9c29998f473e4a49c588aed44873230c79843d48a71a08093",
@@ -114,13 +121,17 @@
     "frontend/src/components/ResultsView.tsx": "60a7f1d86fdf44e9f25733308094a47c58008be5098770a8cfbeba790fa48ba7",
     "frontend/src/main.tsx": "e81aec37c1befe991a35934ed8b90b73e7262a01e4dffae60e1ce87967ff09b4",
     "frontend/src/presentation.ts": "5ddb2d1299ed03b8252eedb96a66d247eed2775607ade0aadd7b1d4838799f8d",
-    "frontend/src/styles.css": "9c36ceefbd3a65ca430530315617bd783a873a776f2856a0e0a45cc5573392b3",
+    "frontend/src/project/ProjectStory.tsx": "741addc253918f818a9c876cfd91ffdd166f34d6ce942fe9b2effb0211586bbc",
+    "frontend/src/project/evidence.json": "a461f5ae6934ca461dff08ffd5a9922693ffb921089a55fbb162cc59d683b183",
+    "frontend/src/project/project.css": "e67899026d875031dcabbf7e55ca0181612fbc1c907f10612b3f0454b485d1e9",
+    "frontend/src/styles.css": "2b9dd23187ef66f1f83c50f86b5475099df737961e420f6d495eb9204f0284cd",
     "frontend/src/types.ts": "8dd49fa220455649d0b4f4c54abc44e4a10c785581f26026794aac07ca93eb10",
     "frontend/tests/api.test.mjs": "a36baa2745a83e8ee98700269ad034a1126d52b0ace43ab7220eaba9ac033700",
     "frontend/tests/presentation.test.mjs": "4f2ab60a20dab140b49213a95679bfd85143d9ed9db80a46167dfda3605260d6",
     "sample-data/manifest.json": "aaeb5ec25143548971b89134df97f4aa92435ff083b8fd3a22c20802835a149f",
     "scripts/check.sh": "f174afc5912c8b47b76e9986656a11821a719f2c63b92a1e81fdaea17df4b1e8",
-    "scripts/generate_examples.py": "490616bef73e2413228f08080228e464c8117de381c1ad7f1f4614a0af610f70"
+    "scripts/generate_examples.py": "490616bef73e2413228f08080228e464c8117de381c1ad7f1f4614a0af610f70",
+    "scripts/generate_project_evidence.py": "0d25ee82f9fbe5f55931bcafe17e96e6e0f54cc70e366ad819674995a97f2b11"
   },
   "version": "1.1.0",
   "automated_tests": {
@@ -219,5 +230,38 @@
     "Readable report summary and five-file ZIP export",
     "Responsive labelled result cards, visible focus and native modal evidence",
     "Everyday Chinese labels, instructions, status messages and demo descriptions; technical identifiers, source explanations and report file names disclosed only when expanded"
-  ]
+  ],
+  "automated_test_counts": {
+    "backend": 40,
+    "frontend_api": 9,
+    "frontend_presentation": 11,
+    "total": 60
+  },
+  "project_introduction": {
+    "route": "#/project/overview",
+    "chapters": [
+      "overview",
+      "audience",
+      "problem",
+      "approach",
+      "evidence",
+      "business",
+      "next"
+    ],
+    "evidence_generator": "scripts/generate_project_evidence.py",
+    "evidence_cases": [
+      "core",
+      "comprehensive"
+    ],
+    "synthetic_only": true,
+    "customer_and_pricing_hypotheses_validated": false,
+    "award_submission_completed": false,
+    "print_pages": 7,
+    "print_format": "A4 landscape",
+    "source_links": [
+      "https://www.hkma.gov.hk/media/eng/doc/key-information/press-release/2023/20230824e3a1.pdf",
+      "https://datsawards.org/#/judging",
+      "https://datsawards.org/#/awards"
+    ]
+  }
 }

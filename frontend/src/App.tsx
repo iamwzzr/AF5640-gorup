@@ -1,11 +1,12 @@
-import { useEffect, useRef, useState } from 'react';
-import { AlertTriangle, ArrowLeft, ArrowRight, Check, CheckCheck, CheckCircle2, FileCheck2, Info, LoaderCircle, Play, X } from 'lucide-react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
+import { AlertTriangle, ArrowLeft, ArrowRight, Check, CheckCheck, CheckCircle2, FileCheck2, Info, LoaderCircle, Play, Presentation, X } from 'lucide-react';
 import * as api from './api';
 import { Badge, Issues } from './components/Common';
 import { DataPreview, RulesForm, UploadBox } from './components/Inputs';
 import { ResultsView } from './components/ResultsView';
 import type { Issue, Result, Rules, Scenario, Validation } from './types';
 
+const ProjectStory = lazy(() => import('./project/ProjectStory'));
 const STEPS = ['填写规则', '上传表格', '查看结果'];
 const DEFAULT_RULES: Rules = {
   project_id: 'DEMO-BOND-01', project_name: '示例债券收益分配', batch_id: '2026-Q3',
@@ -31,6 +32,11 @@ function requestRules(draft: Rules): Rules {
 }
 
 export default function App() {
+  const [surface, setSurface] = useState<'tool' | 'project'>(() => window.location.hash.startsWith('#/project') ? 'project' : 'tool');
+  const [routeHash, setRouteHash] = useState(() => window.location.hash);
+  const [projectHref, setProjectHref] = useState(() => window.location.hash.startsWith('#/project') ? window.location.hash : '#/project/overview');
+  const [projectVisited, setProjectVisited] = useState(() => window.location.hash.startsWith('#/project'));
+  const [presenting, setPresenting] = useState(false);
   const [step, setStep] = useState(0);
   const [rules, setRules] = useState<Rules>(DEFAULT_RULES);
   const [holders, setHolders] = useState<File | null>(null);
@@ -60,9 +66,22 @@ export default function App() {
     });
     return () => { c.abort(); controller.current?.abort(); };
   }, []);
-  useEffect(() => { window.scrollTo(0, 0); }, [step]);
-  useEffect(() => { if (validation) validationSection.current?.scrollIntoView({ block: 'start' }); }, [validation]);
-  useEffect(() => { if (error) errorBanner.current?.scrollIntoView({ block: 'start' }); }, [error]);
+  useEffect(() => {
+    const navigate = () => {
+      const hash = window.location.hash;
+      if (hash.startsWith('#/project')) {
+        setSurface('project'); setProjectVisited(true); setProjectHref(hash); setRouteHash(hash);
+      } else if (hash === '#/tool' || hash === '') {
+        setSurface('tool'); setPresenting(false); setRouteHash(hash);
+      }
+    };
+    window.addEventListener('hashchange', navigate);
+    return () => window.removeEventListener('hashchange', navigate);
+  }, []);
+  useEffect(() => { document.title = surface === 'project' ? '项目介绍 · DistributionCheck' : 'DistributionCheck · AF5640-gorup 收益分配核对'; }, [surface]);
+  useEffect(() => { if (surface === 'tool') window.scrollTo(0, 0); }, [step, surface]);
+  useEffect(() => { if (validation && surface === 'tool') validationSection.current?.scrollIntoView({ block: 'start' }); }, [validation, surface]);
+  useEffect(() => { if (error && surface === 'tool') errorBanner.current?.scrollIntoView({ block: 'start' }); }, [error, surface]);
 
   function invalidate() {
     version.current += 1;
@@ -154,13 +173,16 @@ export default function App() {
   const canReconcile = canRun && validation?.valid === true;
   const scenarioOrder = [...scenarios].sort((a, b) => Number(b.id === 'comprehensive') - Number(a.id === 'comprehensive'));
 
-  return <div className="app-shell">
-    <a className="skip-link" href="#main-content">跳到主要内容</a>
-    <header className="app-header"><div className="header-inner"><div className="brand"><span className="brand-mark"><CheckCheck size={25}/></span><div><strong>DistributionCheck</strong><span>收益发放核对</span></div></div>
-      <button className="button button-secondary" onClick={() => setShowScenarios(!showScenarios)} aria-expanded={showScenarios} aria-controls="scenario-picker"><Play size={17}/>{showScenarios ? '收起示例' : '试用示例'}</button>
+  return <div className={`app-shell ${surface === 'project' && presenting ? 'is-presenting' : ''}`}>
+    <a className="skip-link" href={surface === 'project' ? '#project-content' : '#main-content'} onClick={event => { event.preventDefault(); document.getElementById(surface === 'project' ? 'project-content' : 'main-content')?.focus(); }}>跳到主要内容</a>
+    <header className="app-header"><div className="header-inner"><div className="brand"><span className="brand-mark"><CheckCheck size={25}/></span><div><strong>DistributionCheck</strong><span>{surface === 'project' ? '创业项目介绍' : '收益发放核对'}</span></div></div>
+      {surface === 'tool' ? <button className="button button-secondary" onClick={() => setShowScenarios(!showScenarios)} aria-expanded={showScenarios} aria-controls="scenario-picker"><Play size={17}/>{showScenarios ? '收起示例' : '试用示例'}</button> : <a className="button button-secondary" href="#/tool">打开核对工具</a>}
     </div></header>
+    <nav className="global-nav" aria-label="网站页面"><a href="#/tool" aria-current={surface === 'tool' ? 'page' : undefined}><CheckCheck size={23}/><span>收益核对</span></a><a href={projectHref} aria-current={surface === 'project' ? 'page' : undefined}><Presentation size={23}/><span>项目介绍</span></a></nav>
+    <div className="workspace-container">
+    <div className="surface tool-surface" hidden={surface !== 'tool'}>
     <nav className="process-nav" aria-label="核对步骤"><ol>{STEPS.map((title, index) => <li key={title}><button aria-current={step === index ? 'step' : undefined} disabled={index === 2 && !result} onClick={() => setStep(index)}><span className="step-index">{index < step ? <Check size={17}/> : index + 1}</span><span>{title}</span></button></li>)}</ol><p>一次发放，逐人检查</p></nav>
-    <main id="main-content">
+    <main id="main-content" tabIndex={-1}>
       {showScenarios && <section className="scenario-panel" id="scenario-picker"><div className="section-line"><div><h2>先用示例试一次</h2><p>不用准备表格，选一个例子就能开始。</p></div><Badge tone="warning">演示用数据</Badge></div>
         <div className="scenario-grid">{scenarioOrder.map(scenario => <button key={scenario.id} aria-label={`载入${scenario.name}`} className={`scenario-option ${scenario.id === 'comprehensive' ? 'featured-scenario' : ''}`} onClick={() => loadScenario(scenario)} disabled={Boolean(busy)}><strong>{scenario.name}</strong><p>{scenario.description}</p><span>载入示例<ArrowRight size={16}/></span></button>)}</div>
         {!scenarios.length && <p className="muted">{scenarioError || '正在读取示例…'}</p>}
@@ -193,5 +215,8 @@ export default function App() {
       {step === 2 && result && <ResultsView key={`${result.metadata.input_fingerprints.rules}-${result.metadata.input_fingerprints.holders}-${result.metadata.input_fingerprints.payments}`} result={result} holdersName={holders?.name || 'holders.csv'} paymentsName={payments?.name || 'payments.csv'} busy={Boolean(busy)} onExport={() => run('export')} onEdit={() => setStep(0)}/>}
       <footer className="workspace-footer"><span>AF5640-gorup · DistributionCheck</span><span>刷新页面后，需要重新上传表格。</span></footer>
     </main>
+    </div>
+    {projectVisited && <div className="surface project-surface" hidden={surface !== 'project'}><Suspense fallback={<div className="story-loading" role="status"><LoaderCircle size={22} className="spin"/>正在打开项目介绍…</div>}><ProjectStory active={surface === 'project'} hash={routeHash} presenting={presenting} onPresentingChange={setPresenting} onOpenTool={() => { window.location.hash = '/tool'; }}/></Suspense></div>}
+    </div>
   </div>;
 }
