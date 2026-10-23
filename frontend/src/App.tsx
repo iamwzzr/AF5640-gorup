@@ -6,7 +6,7 @@ import { DataPreview, RulesForm, UploadBox } from './components/Inputs';
 import { ResultsView } from './components/ResultsView';
 import type { Issue, Result, Rules, Scenario, Validation } from './types';
 
-const STEPS = ['分配设置', '导入数据', '查看结果'];
+const STEPS = ['填写规则', '上传表格', '查看结果'];
 const DEFAULT_RULES: Rules = {
   project_id: 'DEMO-BOND-01', project_name: '示例债券收益分配', batch_id: '2026-Q3',
   record_date: '2026-09-30', payment_due_at: '2026-10-10T18:00', as_of: '2026-10-15T12:00',
@@ -84,18 +84,18 @@ export default function App() {
   function proceedToImport() {
     if ([rules.project_id, rules.chain_id, rules.payment_token].some(value => !value.trim())) {
       if (advancedRef.current) advancedRef.current.open = true;
-      setError('请展开项目编号、网络与付款资产，补全信息并与 CSV 核对。'); return;
+      setError('请打开“更多设置”，补全项目编号和付款信息，并与表格核对。'); return;
     }
     if ([rules.project_name, rules.batch_id, rules.record_date, rules.payout_per_token].some(value => !value.trim())) {
-      setError('请填写项目名称、分配批次、持仓记录日和每枚分配额。'); return;
+      setError('请填写项目名称、本次发放编号、名单日期和每个代币发多少。'); return;
     }
     try {
       const payload = requestRules(rules);
       const recordStart = new Date(`${rules.record_date}T00:00:00+08:00`);
       if (Number.isNaN(recordStart.getTime()) || new Date(payload.payment_due_at) < recordStart || new Date(payload.as_of) < recordStart) {
-        setError('付款截止时间和核对时间不能早于持仓记录日。'); return;
+        setError('最晚付款时间和检查截至时间，都不能早于名单日期。'); return;
       }
-    } catch (e) { setError(e instanceof Error ? e.message : '请检查批次时间。'); return; }
+    } catch (e) { setError(e instanceof Error ? e.message : '请检查填写的日期和时间。'); return; }
     setError(''); setStep(1); setShowScenarios(false);
   }
   async function loadScenario(scenario: Scenario) {
@@ -111,13 +111,13 @@ export default function App() {
       setPayments(new File([p], `${scenario.id}-payments.csv`, { type: 'text/csv' }));
       setRules({ ...scenario.rules, payment_due_at: localDate(scenario.rules.payment_due_at), as_of: localDate(scenario.rules.as_of) });
       setStep(1); setShowScenarios(false);
-      setNotice(`已载入「${scenario.name}」，属于教学合成数据。请检查输入后开始核对。`);
+      setNotice(`已载入「${scenario.name}」，表格仅用于演示。请检查表格后开始核对。`);
     } catch (e) {
       if (version.current === requestVersion && !(e instanceof DOMException && e.name === 'AbortError')) setError(e instanceof Error ? e.message : '示例载入失败。');
     } finally { if (version.current === requestVersion) setBusy(null); }
   }
   async function run(action: 'validate' | 'reconcile' | 'export') {
-    if (!holders || !payments) { setError('请先上传持有人名单和付款记录两份 CSV。'); setStep(1); return; }
+    if (!holders || !payments) { setError('请先上传收款名单和付款记录两份表格。'); setStep(1); return; }
     if ((action === 'reconcile' && !validation?.valid) || (action === 'export' && !result)) return;
     controller.current?.abort(); version.current += 1;
     const c = new AbortController(); controller.current = c;
@@ -156,12 +156,12 @@ export default function App() {
 
   return <div className="app-shell">
     <a className="skip-link" href="#main-content">跳到主要内容</a>
-    <header className="app-header"><div className="header-inner"><div className="brand"><span className="brand-mark"><CheckCheck size={25}/></span><div><strong>DistributionCheck</strong><span>收益分配核对</span></div></div>
-      <button className="button button-secondary" onClick={() => setShowScenarios(!showScenarios)} aria-expanded={showScenarios} aria-controls="scenario-picker"><Play size={17}/>{showScenarios ? '收起示例' : '试用合成示例'}</button>
+    <header className="app-header"><div className="header-inner"><div className="brand"><span className="brand-mark"><CheckCheck size={25}/></span><div><strong>DistributionCheck</strong><span>收益发放核对</span></div></div>
+      <button className="button button-secondary" onClick={() => setShowScenarios(!showScenarios)} aria-expanded={showScenarios} aria-controls="scenario-picker"><Play size={17}/>{showScenarios ? '收起示例' : '试用示例'}</button>
     </div></header>
-    <nav className="process-nav" aria-label="核对步骤"><ol>{STEPS.map((title, index) => <li key={title}><button aria-current={step === index ? 'step' : undefined} disabled={index === 2 && !result} onClick={() => setStep(index)}><span className="step-index">{index < step ? <Check size={17}/> : index + 1}</span><span>{title}</span></button></li>)}</ol><p>一次分配，逐人核对</p></nav>
+    <nav className="process-nav" aria-label="核对步骤"><ol>{STEPS.map((title, index) => <li key={title}><button aria-current={step === index ? 'step' : undefined} disabled={index === 2 && !result} onClick={() => setStep(index)}><span className="step-index">{index < step ? <Check size={17}/> : index + 1}</span><span>{title}</span></button></li>)}</ol><p>一次发放，逐人检查</p></nav>
     <main id="main-content">
-      {showScenarios && <section className="scenario-panel" id="scenario-picker"><div className="section-line"><div><h2>用示例，先走完一次核对</h2><p>数据均为合成，包含已知差异，方便检查结果。</p></div><Badge tone="warning">教学数据</Badge></div>
+      {showScenarios && <section className="scenario-panel" id="scenario-picker"><div className="section-line"><div><h2>先用示例试一次</h2><p>不用准备表格，选一个例子就能开始。</p></div><Badge tone="warning">演示用数据</Badge></div>
         <div className="scenario-grid">{scenarioOrder.map(scenario => <button key={scenario.id} aria-label={`载入${scenario.name}`} className={`scenario-option ${scenario.id === 'comprehensive' ? 'featured-scenario' : ''}`} onClick={() => loadScenario(scenario)} disabled={Boolean(busy)}><strong>{scenario.name}</strong><p>{scenario.description}</p><span>载入示例<ArrowRight size={16}/></span></button>)}</div>
         {!scenarios.length && <p className="muted">{scenarioError || '正在读取示例…'}</p>}
       </section>}
@@ -169,29 +169,29 @@ export default function App() {
       {notice && <div className="alert alert-notice" role="status"><CheckCircle2 size={21}/><p>{notice}</p><button className="icon-button" onClick={() => setNotice('')} aria-label="关闭提示"><X size={19}/></button></div>}
       {busy === 'scenario' && <div className="alert alert-notice" role="status"><LoaderCircle size={21} className="spin"/>正在载入示例文件…</div>}
       <Issues issues={errorIssues}/>
-      {step === 0 && <><div className="page-heading"><div><h1>把一次收益分配核对清楚</h1><p>确定分配规则，上传名单和付款记录，找出需要核实的差异。</p></div></div>
+      {step === 0 && <><div className="page-heading"><div><h1>核对这次收益有没有发对</h1><p>看看谁该收多少、已经发了多少、哪里需要再检查。</p></div></div>
         <RulesForm rules={rules} onChange={updateRule} onContinue={proceedToImport} advancedRef={advancedRef}/>
       </>}
       {step === 1 && <>
-        <div className="page-heading"><div><h1>导入名单和付款记录</h1><p>先检查两份文件，确认批次、钱包和金额口径一致。</p></div><button className="button button-secondary" onClick={() => setStep(0)}>修改分配设置</button></div>
-        <div className="input-context"><div><strong>{rules.project_name}</strong><span>批次 {rules.batch_id} · 持仓记录日 {rules.record_date}</span></div><Badge tone={rules.synthetic ? 'warning' : 'neutral'}>{rules.synthetic ? '教学合成数据' : '用户上传数据'}</Badge></div>
+        <div className="page-heading"><div><h1>上传两份表格</h1><p>一份是收款名单，一份是付款记录。没有现成表格可以先下载模板。</p></div><button className="button button-secondary" onClick={() => setStep(0)}>修改发放规则</button></div>
+        <div className="input-context"><div><strong>{rules.project_name}</strong><span>本次编号 {rules.batch_id} · 按 {rules.record_date} 的名单计算</span></div><Badge tone={rules.synthetic ? 'warning' : 'neutral'}>{rules.synthetic ? '演示用数据' : '你上传的数据'}</Badge></div>
         <div className="upload-grid"><UploadBox kind="holders" file={holders} onChange={file => updateFile('holders', file)}/><UploadBox kind="payments" file={payments} onChange={file => updateFile('payments', file)}/></div>
         {validation ? <section ref={validationSection} className="panel validation-panel" aria-label="输入检查结果">
-          <div className="panel-heading"><div className="section-line">{validation.valid ? <CheckCircle2 className="success-text" size={25}/> : <AlertTriangle className="danger-text" size={25}/>}<h2>{validation.valid ? '输入检查通过，可以开始核对' : '请先更正输入问题'}</h2></div><Badge tone={validation.valid ? 'success' : 'danger'}>{validation.valid ? '格式与口径已检查' : '暂不能核对'}</Badge></div>
+          <div className="panel-heading"><div className="section-line">{validation.valid ? <CheckCircle2 className="success-text" size={25}/> : <AlertTriangle className="danger-text" size={25}/>}<h2>{validation.valid ? '表格已检查，可以开始核对' : '请先改好表格里的问题'}</h2></div><Badge tone={validation.valid ? 'success' : 'danger'}>{validation.valid ? '表格可以使用' : '改好后再试'}</Badge></div>
           <div className="validation-body"><Issues issues={validation.issues}/>
-            {validation.valid && <p className="validation-summary">已读取 {validation.preview.holders.row_count} 位持有人、{validation.preview.payments.row_count} 行付款。检查通过代表输入可供计算，结果中的差异仍需人工核实。</p>}
-            {validation.warnings.length > 0 && <details className="disclosure validation-warnings"><summary>输入中有需要留意的情况<span>{validation.warnings.length} 项提示，核对时会保留</span></summary><Issues issues={validation.warnings} warning/></details>}
-            {validation.preview?.holders && <DataPreview data={validation.preview.holders} title="持有人名单预览"/>}
-            {validation.preview?.payments && <DataPreview data={validation.preview.payments} title="付款记录预览"/>}
+            {validation.valid && <p className="validation-summary">已读到 {validation.preview.holders.row_count} 位收款人、{validation.preview.payments.row_count} 行付款记录。表格可以用来计算了，接下来看看有没有少发、多发或其他问题。</p>}
+            {validation.warnings.length > 0 && <details className="disclosure validation-warnings"><summary>这些地方也请留意<span>{validation.warnings.length} 项，结果里会说明</span></summary><Issues issues={validation.warnings} warning/></details>}
+            {validation.preview?.holders && <DataPreview data={validation.preview.holders} title="看看收款名单"/>}
+            {validation.preview?.payments && <DataPreview data={validation.preview.payments} title="看看付款记录"/>}
           </div>
-        </section> : <div className="info-strip"><Info size={20}/><p>上传后点击“检查输入”。缺少字段、错误快照、钱包歧义等问题会阻止核对；待确认、未知钱包和重复导入会保留说明。</p></div>}
-        <div className="bottom-actions"><button className="button button-ghost" onClick={() => setStep(0)}><ArrowLeft size={17}/>返回分配设置</button><div className="button-group">
-          <button className="button button-secondary" disabled={!canRun} onClick={() => run('validate')}>{busy === 'validate' ? <LoaderCircle size={18} className="spin"/> : <FileCheck2 size={18}/>}检查输入</button>
-          <button className="button button-primary" disabled={!canReconcile} title={!validation?.valid ? '请先检查输入并解决阻断问题' : undefined} onClick={() => run('reconcile')}>{busy === 'reconcile' ? <LoaderCircle size={18} className="spin"/> : <CheckCheck size={18}/>}开始核对<ArrowRight size={17}/></button>
+        </section> : <div className="info-strip"><Info size={20}/><p>两份表格都上传后，点击“检查表格”。如果缺少内容或填错了，页面会告诉你改哪里。</p></div>}
+        <div className="bottom-actions"><button className="button button-ghost" onClick={() => setStep(0)}><ArrowLeft size={17}/>返回填写规则</button><div className="button-group">
+          <button className="button button-secondary" disabled={!canRun} onClick={() => run('validate')}>{busy === 'validate' ? <LoaderCircle size={18} className="spin"/> : <FileCheck2 size={18}/>}检查表格</button>
+          <button className="button button-primary" disabled={!canReconcile} title={!validation?.valid ? '请先检查表格，并改好发现的问题' : undefined} onClick={() => run('reconcile')}>{busy === 'reconcile' ? <LoaderCircle size={18} className="spin"/> : <CheckCheck size={18}/>}开始核对<ArrowRight size={17}/></button>
         </div></div>
       </>}
       {step === 2 && result && <ResultsView key={`${result.metadata.input_fingerprints.rules}-${result.metadata.input_fingerprints.holders}-${result.metadata.input_fingerprints.payments}`} result={result} holdersName={holders?.name || 'holders.csv'} paymentsName={payments?.name || 'payments.csv'} busy={Boolean(busy)} onExport={() => run('export')} onEdit={() => setStep(0)}/>}
-      <footer className="workspace-footer"><span>AF5640-gorup · DistributionCheck</span><span>当前输入仅保留在页面会话中，刷新后需重新上传。</span></footer>
+      <footer className="workspace-footer"><span>AF5640-gorup · DistributionCheck</span><span>刷新页面后，需要重新上传表格。</span></footer>
     </main>
   </div>;
 }

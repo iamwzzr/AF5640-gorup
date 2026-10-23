@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { amount, issueCopy, issueGroup, matchesAnomaly, matchesHolder, matchesLedger, resultConclusion } from '../src/presentation.ts';
+import { amount, issueCopy, issueGroup, ledgerExplanation, matchesAnomaly, matchesHolder, matchesLedger, resultConclusion } from '../src/presentation.ts';
 
 test('monetary display preserves a one-millionth gap, large integers and subunit rounding adjustments', () => {
   assert.equal(amount('0.000001'), '0.000001');
@@ -12,13 +12,13 @@ test('monetary display preserves a one-millionth gap, large integers and subunit
 
 test('pending and duplicated-import guidance never turns into an instruction to repay or reverse a payment', () => {
   const pending = issueCopy({ code: 'PENDING_PAYMENT', amount: '10.000000' });
-  assert.match(pending.title, /待确认/);
-  assert.match(pending.detail, /尚未计入/);
-  assert.match(pending.action, /先查交易最终状态，避免重复补付/);
+  assert.match(pending.title, /等确认/);
+  assert.match(pending.detail, /不算已付.*不能.*再发一次/);
+  assert.match(pending.action, /先查.*有没有成功.*别急着再发一次/);
   const duplicate = issueCopy({ code: 'DUPLICATE_IMPORT', amount: '10.000000' });
-  assert.match(duplicate.detail, /仅计入一次/);
-  assert.match(duplicate.action, /重复导入不等于重复付款/);
-  assert.match(issueCopy({ code: 'OVERPAYMENT', amount: '10.000000' }).detail, /可能是拆分付款/);
+  assert.match(duplicate.detail, /重复.*没有再算/);
+  assert.match(duplicate.action, /不代表钱发了两次/);
+  assert.match(issueCopy({ code: 'OVERPAYMENT', amount: '10.000000' }).detail, /分几次收款也可能是正常的/);
 });
 
 test('every known issue belongs to one category, keeping filtered counts disjoint', () => {
@@ -30,34 +30,35 @@ test('unknown-only results identify the unassigned payment without inventing an 
   const result = { summary: { holder_count: 1, affected_holder_count: 0 }, holders: [], anomalies: [{ code: 'UNMATCHED_WALLET' }] };
   const conclusion = resultConclusion(result);
   assert.equal(conclusion.tone, 'warning');
-  assert.match(conclusion.detail, /1 笔付款未匹配持有人/);
-  assert.doesNotMatch(conclusion.detail, /0 位|已结清|已通过/);
+  assert.match(conclusion.detail, /1 笔付款不知道付给了谁/);
+  assert.doesNotMatch(conclusion.detail, /0 位|已付清|已通过/);
 });
 
 test('a pre-deadline shortfall without anomalies is still presented as unpaid, never as all settled', () => {
   const result = { summary: { holder_count: 1, affected_holder_count: 0 }, holders: [{ balance_status: 'short' }], anomalies: [] };
   const conclusion = resultConclusion(result);
-  assert.match(conclusion.title, /仍有款项未付足/);
-  assert.match(conclusion.detail, /未到付款截止时间/);
+  assert.match(conclusion.title, /钱没发齐/);
+  assert.match(conclusion.detail, /还没到最晚付款时间/);
   assert.equal(conclusion.tone, 'warning');
 });
 
 test('a failed payment to an unknown wallet still produces a readable review summary', () => {
   const result = { summary: { holder_count: 1, affected_holder_count: 0 }, holders: [], anomalies: [{ code: 'FAILED_PAYMENT' }] };
-  assert.match(resultConclusion(result).detail, /^有 1 条付款或输入记录需核实/);
+  assert.match(resultConclusion(result).detail, /^有 1 条付款或表格记录需要检查/);
 });
 
 test('clean results describe only the completed input checks without claiming an audit or manual review', () => {
   const result = { summary: { holder_count: 1, affected_holder_count: 0 }, holders: [{ balance_status: 'matched' }], anomalies: [] };
   const conclusion = resultConclusion(result);
-  assert.equal(conclusion.title, '本次输入未发现核对提示');
-  assert.match(conclusion.detail, /结合原始记录确认/);
+  assert.match(conclusion.title, /按这两份表格.*暂时没有发现问题/);
+  assert.match(conclusion.detail, /来自上传的表格.*确认实际付款情况/);
 });
 
 test('anomaly search accepts visible unknown-wallet labels and trims whitespace', () => {
   const anomaly = { code: 'UNMATCHED_WALLET', holder_id: null, wallet: '0xabc', amount: '10', message: '找不到收款人', suggested_action: '核对登记' };
   assert.equal(matchesAnomaly(anomaly, ' 收款人待识别 ', 'identity'), true);
   assert.equal(matchesAnomaly(anomaly, ' 未知钱包 ', 'all'), true);
+  assert.equal(matchesAnomaly(anomaly, ' 不知道付给谁 ', 'identity'), true);
   assert.equal(matchesAnomaly(anomaly, '0xABC', 'money'), false);
 });
 
@@ -74,6 +75,18 @@ test('ledger search and filters distinguish unknown, pending and excluded rows',
   assert.equal(matchesLedger(unknown, ' 未知钱包 ', 'all'), true);
   assert.equal(matchesLedger(unknown, '', 'excluded'), false);
   const failed = { ...unknown, holder_id: 'H006', status: 'failed', included: false };
-  assert.equal(matchesLedger(failed, '失败', 'excluded'), true);
+  assert.equal(matchesLedger(failed, '没成功', 'excluded'), true);
   assert.equal(matchesLedger(failed, '', 'pending'), false);
+});
+
+test('plain payment explanations keep pending, unknown recipients and repeated failed rows distinct', () => {
+  const row = { included: true, status: 'confirmed', holder_id: 'A', reason: '' };
+  assert.match(ledgerExplanation(row), /已算到对应收款人名下/);
+  assert.match(ledgerExplanation({ ...row, holder_id: null }), /不能替任何人算作已付/);
+  assert.match(ledgerExplanation({ ...row, status: 'pending' }), /等确认.*不算已付/);
+  assert.match(ledgerExplanation({ ...row, status: 'pending', holder_id: null }), /等确认.*不在名单/);
+  assert.match(ledgerExplanation({ ...row, included: false, status: 'failed' }), /标为失败.*不算已付/);
+  const duplicateFailed = { ...row, included: false, status: 'failed', reason: '重复导入：与第 2 行相同' };
+  assert.match(ledgerExplanation(duplicateFailed), /同一笔付款，不重复计算/);
+  assert.doesNotMatch(ledgerExplanation(duplicateFailed), /已付|已算到/);
 });

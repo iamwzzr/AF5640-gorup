@@ -1,6 +1,6 @@
 {
   "project": "AF5640-gorup",
-  "date": "2026-10-22",
+  "date": "2026-10-23",
   "status": "implemented_and_checked_locally",
   "frontend": "React + TypeScript + Vite",
   "backend": "FastAPI + Decimal",
@@ -8,7 +8,7 @@
   "automated_test_suite": true,
   "checks": [
     "39 backend business, parser, export and real HTTP regression tests",
-    "9 frontend API client and 10 frontend presentation regression tests using the Node test runner",
+    "9 frontend API client and 11 frontend presentation regression tests using the Node test runner",
     "TypeScript and Vite production build; shell startup script syntax",
     "Three synthetic scenarios, including 100 holders: independent summary checks and mirrored files",
     "Browser: three-step flow, collapsed advanced settings, Chinese previews and input validation gate",
@@ -18,7 +18,8 @@
     "Browser: invalid replacement, malformed CSV, input invalidation, delayed response, network failure and blocked HTML downloads",
     "Browser: clean input and unpaid pre-deadline input through real file upload; invalid hidden settings revealed",
     "Browser: 1440, 1024, 900, 820, 768, 390 and 360px layouts; mobile result cards and contained raw preview scrolling",
-    "2026-10-21 dependency checks: npm audit reported zero known frontend dependency vulnerabilities; pip check found no conflicts"
+    "2026-10-21 dependency checks: npm audit reported zero known frontend dependency vulnerabilities; pip check found no conflicts",
+    "2026-10-23 browser: everyday language on settings, import, results, lists, detail and report; technical identifiers hidden until expanded; all three demos and real ZIP download"
   ],
   "scenario_results": {
     "core": {
@@ -88,7 +89,7 @@
     "No payment execution or production validation"
   ],
   "source_sha256": {
-    "README.md": "3b25d019b51189e6b44dad8974751235f7d5ff3c6eb7a7e73893cc1c34c83c46",
+    "README.md": "4fa291c647ba663684f0a48b3f98e17e6299e5658751652c30d2e7ece8959a2a",
     "backend/app/__init__.py": "2ff0b27d0b1fc3bfb482113f5861350c3af78a3b5383a6c781b1d722b912d0f8",
     "backend/app/engine.py": "8da836c73c35b38173384db2bf766f532cdd37e4a9e65b2dd2346566461256be",
     "backend/app/export.py": "0b548be57cf4458b9d0d7a1eb5e5e93f6bc8e41774a9d29c1683bf4a0e646369",
@@ -97,36 +98,36 @@
     "backend/app/schemas.py": "c13f7e3affd090963ef6a617231609510e8d8a3f49dee217ceb7a8c83200e618",
     "backend/tests/test_api.py": "90933c56239765b7099d2d63fdf9e7e626496fd792fcbbfb70fc430cacd501ef",
     "backend/tests/test_reconciliation.py": "d772a08de663bddabbdb8f36e5b4dc742553ae0667dcc5075465f631dd922eb9",
-    "docs/API_CONTRACT.md": "26adfda877dea3844977f3c4e16b241b9cef411a5b95d5640a728013060d5420",
-    "docs/PROJECT_CHECK.md": "5fd0f2b7c1cffafe5f9394cda3f263bd1de239e0bcaa92affc2b76eec4284346",
-    "docs/preview.jpg": "f7c71bad5e2ba3ef3f509068824838aee109f5ee952976fe8588def52a685c03",
-    "frontend/index.html": "92e30265bfb46d0edba92d3ba153a2f5dd2e2efa64874f643a6460afa749e17b",
+    "docs/API_CONTRACT.md": "ab4a445280136bfc9fcf1c4cb3989d51548d9e6dba848ea5be749392efed6725",
+    "docs/PROJECT_CHECK.md": "903cd8392d1a4096fd0aeb9d95fab9f1404551c1338f898e0200236bacbab513",
+    "docs/preview.jpg": "430805b11533a93513f467bcb42632d664848171ca883bf0e212c9e659413200",
+    "frontend/index.html": "6dbcac5c3727f9d536e8a8c66df00c710c1656177161003dc1906fb2479d7e48",
     "frontend/package-lock.json": "f2eb8d8fcb16d79a5668137267e4dc224a9e681d17bfa29bd352225c74898ead",
     "frontend/package.json": "31a986cc35e982960db1221e8718d71e9a9c243e6b90932b5a39fd17e0470838",
     "frontend/public/favicon.svg": "4ec0ec383321fb964658e4d80ee2216156fda27ffdb02ea533009789673b6733",
-    "frontend/src/App.tsx": "c877e09e92886af6304ed1f5bc05eade109c461c73fc1405ed618d09908d52db",
-    "frontend/src/api.ts": "194f42f983366d04f4206c23113996d7ba558d3dbf7b6f52a72b2d9a09e9ad52",
-    "frontend/src/components/Common.tsx": "cf66a3eb66e56bb5c3f4e9d6e2c34b92e504a1695c0ba071ad90b2c2dc36c957",
-    "frontend/src/components/EvidenceDialog.tsx": "85a053db39326f801eaecc0f42368e44c3008b1885d13133dac878b5fe6cca81",
-    "frontend/src/components/Inputs.tsx": "de99f67714d25d29ebfa3b5b8b25e6d132d4910d2877be02de6bd16e5dcf4ad1",
-    "frontend/src/components/ReportView.tsx": "7cbc831241ac137acdf4298907b5eb2a90878643ce16875559e03e6d81873407",
-    "frontend/src/components/ResultsView.tsx": "cf528668e31463bd3f3b3acec6b011daeb5df7849705ba0f5504b13143967f04",
+    "frontend/src/App.tsx": "dcfb01c60f1bcc88f8d7d3f083a23abfaba35ec8817ca65a248b9202d29c0a46",
+    "frontend/src/api.ts": "cb724278664267fa124d5e19523db567948c42f06ab895acb399b272c069d8e9",
+    "frontend/src/components/Common.tsx": "33add9e3bf7274645263990168a15c17f604b28eeee23ee7ffa39ef72b8a9c39",
+    "frontend/src/components/EvidenceDialog.tsx": "59309727e3f9fbf9c29998f473e4a49c588aed44873230c79843d48a71a08093",
+    "frontend/src/components/Inputs.tsx": "a4f765e784d421be2f298b96e1b63b21598e16c4520430f96b5ae032288a14cf",
+    "frontend/src/components/ReportView.tsx": "8eec5d6fcf7f7a2839f3cacb41b9d740c84aec0f131e48f7850ae6a346acb507",
+    "frontend/src/components/ResultsView.tsx": "60a7f1d86fdf44e9f25733308094a47c58008be5098770a8cfbeba790fa48ba7",
     "frontend/src/main.tsx": "e81aec37c1befe991a35934ed8b90b73e7262a01e4dffae60e1ce87967ff09b4",
-    "frontend/src/presentation.ts": "30ef87aae1acd1cf34e2e28e068a86cb7312cb804e54fbff1a2906e3f48ebb6d",
+    "frontend/src/presentation.ts": "5ddb2d1299ed03b8252eedb96a66d247eed2775607ade0aadd7b1d4838799f8d",
     "frontend/src/styles.css": "9c36ceefbd3a65ca430530315617bd783a873a776f2856a0e0a45cc5573392b3",
     "frontend/src/types.ts": "8dd49fa220455649d0b4f4c54abc44e4a10c785581f26026794aac07ca93eb10",
     "frontend/tests/api.test.mjs": "a36baa2745a83e8ee98700269ad034a1126d52b0ace43ab7220eaba9ac033700",
-    "frontend/tests/presentation.test.mjs": "a41dec6584c4284bfabfac331aba5502ebc3237ff55ce89b65286bd494364078",
-    "sample-data/manifest.json": "bd2c4c9c6d7a6be26ca0db2fe53d25d962f5f2be49e2d3e4d7efd3e93cba486b",
+    "frontend/tests/presentation.test.mjs": "4f2ab60a20dab140b49213a95679bfd85143d9ed9db80a46167dfda3605260d6",
+    "sample-data/manifest.json": "aaeb5ec25143548971b89134df97f4aa92435ff083b8fd3a22c20802835a149f",
     "scripts/check.sh": "f174afc5912c8b47b76e9986656a11821a719f2c63b92a1e81fdaea17df4b1e8",
-    "scripts/generate_examples.py": "efe2aa0eb2189582872249052ff21ab545531438297297c11ac6262a688a2b5b"
+    "scripts/generate_examples.py": "490616bef73e2413228f08080228e464c8117de381c1ad7f1f4614a0af610f70"
   },
   "version": "1.1.0",
   "automated_tests": {
     "backend": 39,
     "frontend_api": 9,
-    "frontend_presentation": 10,
-    "total": 58,
+    "frontend_presentation": 11,
+    "total": 59,
     "result": "passed",
     "command": "./scripts/check.sh"
   },
@@ -184,7 +185,30 @@
       390,
       360
     ],
-    "expected_console_errors": "One deliberate network failure was injected in the error-handling check"
+    "expected_console_errors": "One deliberate network failure was injected in the error-handling check",
+    "prior_full_workflow_check_date": "2026-10-22",
+    "plain_language_check_date": "2026-10-23",
+    "plain_language_views": [
+      "settings",
+      "import",
+      "validation",
+      "results",
+      "holders",
+      "payments",
+      "detail",
+      "report"
+    ],
+    "technical_identifiers_collapsed": true,
+    "raw_evidence_and_review_actions_retained": true,
+    "simple_payment_labels_searchable": true,
+    "plain_language_viewport_widths": [
+      1440,
+      1024,
+      820,
+      390,
+      360
+    ],
+    "uncaught_page_errors_in_plain_language_checks": 0
   },
   "notes": "See docs/PROJECT_CHECK.md for scope, fixed issues, evidence and unimplemented capabilities.",
   "ui_changes": [
@@ -193,6 +217,7 @@
     "Review issues first with subject, finding, next check and evidence",
     "Progressive disclosure for network settings, amount composition, source records and report fingerprints",
     "Readable report summary and five-file ZIP export",
-    "Responsive labelled result cards, visible focus and native modal evidence"
+    "Responsive labelled result cards, visible focus and native modal evidence",
+    "Everyday Chinese labels, instructions, status messages and demo descriptions; technical identifiers, source explanations and report file names disclosed only when expanded"
   ]
 }

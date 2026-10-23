@@ -56,6 +56,8 @@ The three primary amounts map directly to `expected_total`, `confirmed_total`, a
 
 Evidence uses a native modal dialog with three sections: finding, manual verification, and original records. Full hashes, wallets and timestamps are expandable. The report summary describes the same fixed inputs and downloads the existing five-file ZIP; it introduces no new API or server persistence. On mobile, result tables become labelled record cards. A returned report view retains table search, filters and pagination.
 
+The current Chinese UI uses everyday language: steps are “填写规则 / 上传表格 / 查看结果”; primary amounts are “这次该发多少 / 表格里已发多少 / 还有多少没发齐”. Result tables hide raw addresses and transaction hashes until a detail is opened. Plain-language findings and actions describe the same codes; full backend explanations remain available in expandable source details and unchanged exports. Report file names and fingerprints are disclosed on demand. This is a presentation change: all request fields, monetary semantics, CSV columns, fingerprints and ZIP contents remain the same.
+
 ## Demo scenarios
 
 `core`: five holders A/B/C/D/E with units 1000/500/800/1200/500. Payout .2. Confirmed payments A200 B90 C0 D240+D240 E60+E40 => expected800, confirmed870, shortfall170, overpayment240, net70. All timestamps Oct10 before due/as_of.

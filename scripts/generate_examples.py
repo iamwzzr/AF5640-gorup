@@ -80,9 +80,9 @@ def main():
             comprehensive.append(payment(number, 1004 if recipient == 4 else recipient, amount, status))
     scenarios = []
     for key, name, description, units, payments, payout in [
-        ("core", "收益分配示例", "5位持有人：少付、未付、超付与正常拆分付款。应付800，已确认870，个人不足额170。", [1000, 500, 800, 1200, 500], core, "0.200000"),
-        ("edge", "付款状态与精度示例", "6位持有人：重复导入、待确认、合法拆分与0.000001的金额差异。", [100, 200, 300, 150, 150, 100], edge, "0.100000"),
-        ("comprehensive", "100人综合演示", "覆盖漏付、少付、超付、未知钱包、待确认、付款失败和重复导入，含正常拆分付款。", [100] * 100, comprehensive, "0.100000"),
+        ("core", "5人简单示例", "5个人，展示少发、没发、多发，以及分两次付款的情况。", [1000, 500, 800, 1200, 500], core, "0.200000"),
+        ("edge", "付款没确认，或记录重复", "6个人，包含付款还在确认、重复记录，以及只差0.000001的情况。", [100, 200, 300, 150, 150, 100], edge, "0.100000"),
+        ("comprehensive", "100人完整示例", "100个人，一次看看少发、多发、收款人不明等常见问题。", [100] * 100, comprehensive, "0.100000"),
     ]:
         batch = rules(payout)
         write_text(f"{key}/holders.csv", csv_text(HOLDER_HEADERS, holder_rows(units)))

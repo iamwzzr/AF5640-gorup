@@ -14,7 +14,7 @@ export function Field({ label, hint, children, wide = false }: { label: string; 
 export function Issues({ issues, warning = false }: { issues: Issue[]; warning?: boolean }) {
   if (!issues.length) return null;
   return <div className={`issue-list ${warning ? 'warning-list' : ''}`}>
-    <strong>{warning ? '请留意以下提示' : `请更正 ${issues.length} 项输入问题`}</strong>
+    <strong>{warning ? '这些地方请再看一下' : `请更正 ${issues.length} 个表格问题`}</strong>
     {issues.slice(0, 30).map((issue, i) => <div className="issue-item" key={`${issue.code}-${i}`}>
       <AlertTriangle size={17}/><div>
         <b>{FILE_LABELS[issue.file]}{issue.row != null ? ` · 第 ${issue.row} 行` : ''}{issue.field ? ` · ${FIELD_LABELS[issue.field] || issue.field}` : ''}</b>

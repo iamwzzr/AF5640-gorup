@@ -14,7 +14,7 @@ async function request(path: string, rules: Rules, holders: File, payments: File
   try { response = await fetch(path, { method: 'POST', body: payload(rules, holders, payments), signal }); }
   catch (error) {
     if (error instanceof DOMException && error.name === 'AbortError') throw error;
-    throw new ApiError('无法连接核对服务。请确认后端已启动，然后重试。');
+    throw new ApiError('无法连接核对服务。请重新启动项目，再试一次。');
   }
   if (!response.ok) {
     const body = await response.json().catch(() => null);
@@ -22,14 +22,14 @@ async function request(path: string, rules: Rules, holders: File, payments: File
     throw new ApiError(error?.message || (response.status === 413 ? '文件过大，每份CSV请控制在5 MiB以内。' : `请求未完成（${response.status}），请稍后重试。`), error?.issues || []);
   }
   const actualType = response.headers.get('Content-Type')?.split(';')[0].trim().toLowerCase();
-  if (actualType !== expectedType) throw new ApiError('核对服务返回的内容格式不正确。请确认本项目后端已启动，然后重试。');
+  if (actualType !== expectedType) throw new ApiError('核对服务返回的内容格式不正确。请重新启动项目，再试一次。');
   return response;
 }
 async function readJson<T>(response: Response): Promise<T> {
   try { return await response.json(); }
   catch (error) {
     if (error instanceof DOMException && error.name === 'AbortError') throw error;
-    throw new ApiError('核对服务返回的数据无法读取，请重试或重启后端。');
+    throw new ApiError('核对服务返回的数据无法读取，请重试或重新启动项目。');
   }
 }
 export async function validate(rules: Rules, holders: File, payments: File, signal: AbortSignal): Promise<Validation> {
