@@ -23,7 +23,11 @@
     "2026-10-23 browser: seven project chapters, synthetic evidence labels, 10 issue choices, unknown-payment isolation and pending-payment guidance",
     "2026-10-23 browser: presentation arrows and Escape, chapter deep links, reload/back, retained tool inputs/results/search/report across surface navigation; no uncaught page errors",
     "2026-10-23 browser: all project chapters and tool settings/import/results/report checked at 1440, 1024, 820, 768, 390 and 360px; real ZIP download verified",
-    "2026-10-23 PDF: seven landscape A4 project chapters rendered and inspected, expanded sources restored after print, presentation-mode printing and hidden tool isolation"
+    "2026-10-23 PDF: seven landscape A4 project chapters rendered and inspected, expanded sources restored after print, presentation-mode printing and hidden tool isolation",
+    "2026-10-23 narrative revision: fictional operator labelled; continuous five-holder B/C/D findings, exact amounts and original file rows verified; actual synthetic tool screenshot served",
+    "2026-10-23 narrative revision: manual spreadsheet / existing platform / prototype comparison; Tokeny public servicing/reporting capabilities acknowledged; customer, timing and pricing assumptions remain unvalidated",
+    "2026-10-23 narrative revision: seven chapters at 1440, 1024, 820, 768, 390 and 360px; mobile comparison caption and cards inspected; tool state retained; presentation Escape works from case buttons and select",
+    "2026-10-23 narrative revision: seven landscape A4 pages rendered and inspected, including seven source references; printing restores disclosure state"
   ],
   "scenario_results": {
     "core": {
@@ -94,7 +98,7 @@
   ],
   "source_sha256": {
     ".gitignore": "16a31e048fcf6d250bf26303188ade6e297e7f65204f0c2da1bee0f5de35415e",
-    "README.md": "fb326d0b9f652ce0f2093da351fa858d3382c77909f1f58944da9856b2d19df4",
+    "README.md": "1bc39f05c5aafd41aa77f7aa8cec02e6c8fad21bea6fb1a1f847724a9f12746d",
     "backend/app/__init__.py": "2ff0b27d0b1fc3bfb482113f5861350c3af78a3b5383a6c781b1d722b912d0f8",
     "backend/app/engine.py": "8da836c73c35b38173384db2bf766f532cdd37e4a9e65b2dd2346566461256be",
     "backend/app/export.py": "0b548be57cf4458b9d0d7a1eb5e5e93f6bc8e41774a9d29c1683bf4a0e646369",
@@ -104,14 +108,15 @@
     "backend/tests/test_api.py": "90933c56239765b7099d2d63fdf9e7e626496fd792fcbbfb70fc430cacd501ef",
     "backend/tests/test_project_evidence.py": "3b67967c5a1e2a5eaabcf68a269b7cf484a01a038ffa8750d45107fbcfd5a361",
     "backend/tests/test_reconciliation.py": "d772a08de663bddabbdb8f36e5b4dc742553ae0667dcc5075465f631dd922eb9",
-    "docs/API_CONTRACT.md": "ae953314da28bea249d259e9f4d35b87b254d30f7af652bac3dcd3440d07520a",
-    "docs/PROJECT_CHECK.md": "67b3a66b7f59d21cc3aa21526a57cb8006e9827302085738fefe4bf52d781c3a",
+    "docs/API_CONTRACT.md": "83d0898313e9ae2f1c2b651667c3aa879d94d1c35ad2f7fcfefc16b5954f37dd",
+    "docs/PROJECT_CHECK.md": "3080b906fa3d810c356576ef5d96f0b6d4a3263da6c14443a0906a64ec09aaff",
     "docs/preview.jpg": "430805b11533a93513f467bcb42632d664848171ca883bf0e212c9e659413200",
-    "docs/project-story-preview.jpg": "34e2ec717597d33e3148f3953d5113f372cc3a1c653e515a89816948f05bcf5d",
+    "docs/project-story-preview.jpg": "b69a98bf8c32a3e0257772d65729cc1384578cf224c94e5630dd4eb823891bbc",
     "frontend/index.html": "6dbcac5c3727f9d536e8a8c66df00c710c1656177161003dc1906fb2479d7e48",
     "frontend/package-lock.json": "f2eb8d8fcb16d79a5668137267e4dc224a9e681d17bfa29bd352225c74898ead",
     "frontend/package.json": "31a986cc35e982960db1221e8718d71e9a9c243e6b90932b5a39fd17e0470838",
     "frontend/public/favicon.svg": "4ec0ec383321fb964658e4d80ee2216156fda27ffdb02ea533009789673b6733",
+    "frontend/public/project/core-review.png": "be450dfcdc65142eccc8fc77b951a2ba65bb2a3120974f603b9b301478a279c7",
     "frontend/src/App.tsx": "4c0f025219101c167d011a92033d51e0d24dde72908da8437e467905048181dd",
     "frontend/src/api.ts": "cb724278664267fa124d5e19523db567948c42f06ab895acb399b272c069d8e9",
     "frontend/src/components/Common.tsx": "33add9e3bf7274645263990168a15c17f604b28eeee23ee7ffa39ef72b8a9c39",
@@ -121,9 +126,9 @@
     "frontend/src/components/ResultsView.tsx": "60a7f1d86fdf44e9f25733308094a47c58008be5098770a8cfbeba790fa48ba7",
     "frontend/src/main.tsx": "e81aec37c1befe991a35934ed8b90b73e7262a01e4dffae60e1ce87967ff09b4",
     "frontend/src/presentation.ts": "5ddb2d1299ed03b8252eedb96a66d247eed2775607ade0aadd7b1d4838799f8d",
-    "frontend/src/project/ProjectStory.tsx": "741addc253918f818a9c876cfd91ffdd166f34d6ce942fe9b2effb0211586bbc",
+    "frontend/src/project/ProjectStory.tsx": "7621751c7819c10e0ea0479eb4dfd7c218a7d18343772571f3456cc3c967a084",
     "frontend/src/project/evidence.json": "a461f5ae6934ca461dff08ffd5a9922693ffb921089a55fbb162cc59d683b183",
-    "frontend/src/project/project.css": "e67899026d875031dcabbf7e55ca0181612fbc1c907f10612b3f0454b485d1e9",
+    "frontend/src/project/project.css": "aa2639051a70d192b0a43f6d8dbf790c0559955fce0fbed28e07f382feba082d",
     "frontend/src/styles.css": "2b9dd23187ef66f1f83c50f86b5475099df737961e420f6d495eb9204f0284cd",
     "frontend/src/types.ts": "8dd49fa220455649d0b4f4c54abc44e4a10c785581f26026794aac07ca93eb10",
     "frontend/tests/api.test.mjs": "a36baa2745a83e8ee98700269ad034a1126d52b0ace43ab7220eaba9ac033700",
@@ -135,10 +140,10 @@
   },
   "version": "1.1.0",
   "automated_tests": {
-    "backend": 39,
+    "backend": 40,
     "frontend_api": 9,
     "frontend_presentation": 11,
-    "total": 59,
+    "total": 60,
     "result": "passed",
     "command": "./scripts/check.sh"
   },
@@ -229,7 +234,8 @@
     "Progressive disclosure for network settings, amount composition, source records and report fingerprints",
     "Readable report summary and five-file ZIP export",
     "Responsive labelled result cards, visible focus and native modal evidence",
-    "Everyday Chinese labels, instructions, status messages and demo descriptions; technical identifiers, source explanations and report file names disclosed only when expanded"
+    "Everyday Chinese labels, instructions, status messages and demo descriptions; technical identifiers, source explanations and report file names disclosed only when expanded",
+    "Project introduction follows a fictional operator, traces the same five-holder example to source rows, compares existing methods and describes measurable validation plans"
   ],
   "automated_test_counts": {
     "backend": 40,
@@ -261,7 +267,32 @@
     "source_links": [
       "https://www.hkma.gov.hk/media/eng/doc/key-information/press-release/2023/20230824e3a1.pdf",
       "https://datsawards.org/#/judging",
-      "https://datsawards.org/#/awards"
-    ]
+      "https://datsawards.org/#/awards",
+      "https://tokeny.com/tokenized-debt/",
+      "https://tokeny.com/wp-content/uploads/2023/08/The-Complete-Tokenization-Process-Tokeny.pdf",
+      "https://addx.co/en/",
+      "https://bm.hkust.edu.hk/news/2023/12/hkust-fintechstic-2023-concluded-resounding-success"
+    ],
+    "narrative": "Explicitly fictional operator reviews one quarterly payout",
+    "five_holder_interactive_cases": [
+      "B",
+      "C",
+      "D"
+    ],
+    "real_tool_screenshot": "frontend/public/project/core-review.png",
+    "existing_methods_compared": [
+      "Manual spreadsheets",
+      "Tokeny public servicing and reporting",
+      "Current DistributionCheck prototype"
+    ],
+    "planned_measurements": [
+      "Full preparation, runtime and review time",
+      "Missed and false-positive findings against known synthetic issues",
+      "Buyer budget and purchasing conditions"
+    ],
+    "customer_interviews_completed": false,
+    "timing_or_accuracy_benchmark_completed": false,
+    "escape_from_focused_controls": "passed",
+    "mobile_comparison_caption": "passed"
   }
 }

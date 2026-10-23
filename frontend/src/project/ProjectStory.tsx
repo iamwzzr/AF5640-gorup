@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { ArrowLeft, ArrowRight, Building2, Check, CheckCheck, ChevronLeft, ChevronRight, ClipboardList, ExternalLink, FileCheck2, FileSpreadsheet, Flag, Maximize2, Minimize2, Presentation, Printer, Search, Users, Wallet } from 'lucide-react';
+import type { ReactNode } from 'react';
+import { ArrowLeft, Building2, Check, CheckCheck, ChevronLeft, ChevronRight, ClipboardList, ExternalLink, FileCheck2, FileSpreadsheet, Flag, Maximize2, Minimize2, Presentation, Printer, Search, Users, Wallet } from 'lucide-react';
 import { amount, CODE_LABELS, issueCopy } from '../presentation';
 import type { Result } from '../types';
 import evidence from './evidence.json';
@@ -7,27 +8,31 @@ import './project.css';
 
 const CASES = evidence.cases as { core: Result; comprehensive: Result };
 const CHAPTERS = [
-  { id: 'overview', title: '项目概览', heading: '每个人的钱，真的发对了吗？', subtitle: 'DistributionCheck 帮助收益发放团队，逐人核对该发多少、已经发了多少，以及哪里需要再检查。' },
-  { id: 'audience', title: '谁会需要', heading: '先为负责发钱、查账的人服务', subtitle: '从代币化基金、债券的一次收益发放开始，寻找一个具体、可以验证的使用场景。' },
-  { id: 'problem', title: '问题在哪里', heading: '总数看起来够了，有人仍没收齐', subtitle: '用一个可复现的例子，看清为什么只比较总金额还不够。' },
-  { id: 'approach', title: '我们的方法', heading: '把三份信息，变成一份能解释的结果', subtitle: '使用者提供发放规则、收款名单和付款记录。工具算出差别，再指向原始表格。' },
-  { id: 'evidence', title: '演示与证据', heading: '100 人的发放，问题落在哪一笔？', subtitle: '下面的数字由当前程序读取演示表格生成。可以选择一个问题，看看为什么被提醒。' },
-  { id: 'business', title: '怎么做生意', heading: '让一次核对，成为值得付费的服务', subtitle: '先验证有人愿意用，再验证他们愿意为什么付费。以下是商业设想，尚未经过客户验证。' },
-  { id: 'next', title: '下一步验证', heading: '用证据，把选题变成创业项目', subtitle: '现有原型支持展示解决办法；需求、差异和商业价值，还需要继续研究和验证。' },
+  { id: 'overview', title: '项目概览', heading: '发完收益，每个人都收齐了吗？', subtitle: 'DistributionCheck 帮助小型发行团队，把规则、收款名单和付款记录逐人对起来。' },
+  { id: 'audience', title: '谁会需要', heading: '小林要交出的，是一份说得清的结果', subtitle: '从小型债券发行团队的运营人员开始，看看一次季度付息后的复查工作。' },
+  { id: 'problem', title: '问题在哪里', heading: '总数看起来够了，有人仍没收齐', subtitle: '小林先看发放总额，再逐人核对。这两步会得到不同的结论。' },
+  { id: 'approach', title: '怎么查清', heading: '跟着一笔差额，查回原始记录', subtitle: '继续使用这组5人样本：从该收多少、已发多少，一路看到为什么提醒、该去哪里查。' },
+  { id: 'evidence', title: '放到100人', heading: '同一套检查，放到100人的发放里', subtitle: '5人样本讲清方法；100人样本再检查少发、多发、付款待确认等情况。两组都是合成数据。' },
+  { id: 'business', title: '现有办法与收费', heading: '小林为什么会多用一个工具？', subtitle: '先比较手工表格、已有发行平台和我们的原型，再验证独立复查是否值得付费。' },
+  { id: 'next', title: '下一步验证', heading: '下一步，要测出它到底有没有用', subtitle: '先记录真实工作方式，再用同一组输入比较人工和工具。以下是待执行计划，还没有测量或付费结果。' },
 ] as const;
 const HKMA_REPORT = 'https://www.hkma.gov.hk/media/eng/doc/key-information/press-release/2023/20230824e3a1.pdf';
 const DATS_JUDGING = 'https://datsawards.org/#/judging';
 const DATS_AWARDS = 'https://datsawards.org/#/awards';
+const TOKENY_DEBT = 'https://tokeny.com/tokenized-debt/';
+const TOKENY_PROCESS = 'https://tokeny.com/wp-content/uploads/2023/08/The-Complete-Tokenization-Process-Tokeny.pdf';
+const ADDX = 'https://addx.co/en/';
+const MDB = 'https://bm.hkust.edu.hk/news/2023/12/hkust-fintechstic-2023-concluded-resounding-success';
 
 function chapterIndex(hash: string): number {
   const id = hash.replace(/^#\/project\/?/, '').split('/')[0];
   const index = CHAPTERS.findIndex(chapter => chapter.id === id);
   return index < 0 ? 0 : index;
 }
-function Reference({ href, children }: { href: string; children: React.ReactNode }) {
+function Reference({ href, children }: { href: string; children: ReactNode }) {
   return <a href={href} target="_blank" rel="noreferrer" className="story-reference">{children}<ExternalLink size={13}/></a>;
 }
-function EvidenceLabel({ kind, children }: { kind: 'built' | 'public' | 'demo' | 'hypothesis'; children: React.ReactNode }) {
+function EvidenceLabel({ kind, children }: { kind: 'built' | 'public' | 'demo' | 'hypothesis'; children: ReactNode }) {
   return <span className={`evidence-label evidence-label-${kind}`}>{children}</span>;
 }
 
@@ -38,9 +43,14 @@ export default function ProjectStory({ active, hash, presenting, onPresentingCha
   const chapter = CHAPTERS[index];
   const sourceDetailsRef = useRef<HTMLDetailsElement>(null);
   const [revenue, setRevenue] = useState<'per-run' | 'subscription'>('per-run');
+  const [coreHolderId, setCoreHolderId] = useState('B');
   const [issueId, setIssueId] = useState(() => CASES.comprehensive.anomalies.find(issue => issue.holder_id === 'H002')?.id || CASES.comprehensive.anomalies[0].id);
   const demo = CASES.comprehensive;
   const core = CASES.core;
+  const coreHolder = core.holders.find(holder => holder.holder_id === coreHolderId)!;
+  const coreIssue = core.anomalies.find(anomaly => anomaly.holder_id === coreHolderId)!;
+  const coreText = issueCopy(coreIssue);
+  const corePayments = core.payment_ledger.filter(row => row.holder_id === coreHolderId);
   const issue = demo.anomalies.find(item => item.id === issueId) || demo.anomalies[0];
   const selectedHolder = demo.holders.find(holder => holder.holder_id === issue.holder_id);
   const issueText = issueCopy(issue);
@@ -67,8 +77,9 @@ export default function ProjectStory({ active, hash, presenting, onPresentingCha
     if (!active) return;
     const onKey = (event: KeyboardEvent) => {
       const target = event.target;
-      if (event.altKey || event.ctrlKey || event.metaKey || target instanceof HTMLElement && target.closest('input,textarea,select,[contenteditable="true"],[data-local-keys]')) return;
-      if (event.key === 'Escape' && presenting) { onPresentingChange(false); return; }
+      if (event.altKey || event.ctrlKey || event.metaKey) return;
+      if (event.key === 'Escape' && presenting) { event.preventDefault(); onPresentingChange(false); return; }
+      if (target instanceof HTMLElement && target.closest('input,textarea,select,[contenteditable="true"],[data-local-keys]')) return;
       if (event.key === 'ArrowRight' || event.key === 'PageDown') { event.preventDefault(); goTo(index + 1); }
       if (event.key === 'ArrowLeft' || event.key === 'PageUp') { event.preventDefault(); goTo(index - 1); }
     };
@@ -94,8 +105,9 @@ export default function ProjectStory({ active, hash, presenting, onPresentingCha
 
           {item.id === 'overview' && <>
             <div className="story-cover-grid"><div className="story-cover-message"><p className="story-positioning">面向代币化基金与债券的收益发放核对工具</p>
-              <h2>把“发完了”，<br/>变成“逐人查清楚了”。</h2>
-              <p>谁少收、谁多收、哪笔还在等确认，以及该回到哪一行检查，都放在同一个地方。</p>
+              <h2>先查谁没收齐，<br/>再追到原始记录。</h2>
+              <p>这次季度付息后，运营人员小林需要向负责人解释：谁少收了、为什么提醒，以及该回到哪里检查。</p>
+              <div className="story-character-note"><span className="story-character-initial" aria-hidden="true">林</span><span>跟着小林完成一次复查<small>演示角色与情境，非真实客户案例</small></span></div>
               <div className="story-cover-proof"><EvidenceLabel kind="built">已有可操作原型</EvidenceLabel><EvidenceLabel kind="hypothesis">客户需求待验证</EvidenceLabel></div>
               <button className="button button-primary" onClick={onOpenTool}><CheckCheck size={18}/>打开核对工具</button>
             </div><div className="story-cover-visual" aria-label="规则、名单和付款记录，经核对后生成逐人结果及问题清单">
@@ -103,35 +115,33 @@ export default function ProjectStory({ active, hash, presenting, onPresentingCha
               <div className="story-check-line"><span/><CheckCheck size={23}/><span/></div>
               <div className="story-output-doc"><div><FileCheck2 size={24}/><strong>一次收益发放核对</strong></div><p><Check size={16}/>每个人该收与已付的钱</p><p><Search size={16}/>需要检查的问题与原因</p><p><ClipboardList size={16}/>可回查的原始记录</p><div className="story-output-stamp">结果可以解释，也可以保存</div></div>
             </div></div>
-            <footer className="story-slide-note">当前范围：按上传表格核对一次发放，不自动查询实际交易或执行转账。</footer>
+            <footer className="story-slide-note">本次故事：季度付息后的独立复查。当前按固定格式的表格核对，不自动查询实际交易或执行转账。</footer>
           </>}
 
           {item.id === 'audience' && <>
-            <div className="story-audience-intro"><EvidenceLabel kind="hypothesis">目标客户设想，尚未访谈验证</EvidenceLabel><p>重点寻找会定期发放收益、手里已有名单和付款记录的团队。</p></div>
-            <div className="story-audiences">
-              <article><Building2 size={25}/><div><h2>基金或债券的发行团队</h2><p>一次发放结束后，确认每位收款人是否收齐。</p></div><span>可能使用者：运营人员<br/>可能购买者：项目负责人</span></article>
-              <article><ClipboardList size={25}/><div><h2>为基金处理日常事务的服务商</h2><p>为客户整理发放记录，并给出可以回查的解释。</p></div><span>可能使用者：核对人员<br/>可能购买者：服务负责人</span></article>
-              <article><Users size={25}/><div><h2>代币发行平台的运营团队</h2><p>把现有系统导出的表格，再做一次独立核对。</p></div><span>可能使用者：平台运营<br/>可能购买者：业务负责人</span></article>
-            </div>
-            <div className="story-question"><strong>第一轮访谈先问：</strong><p>你们上次发放如何核对？谁负责？哪里最费时？发现问题后，通常怎么回查？</p></div>
+            <div className="story-role-grid"><article className="story-persona"><div className="story-persona-heading"><span className="story-character-initial" aria-hidden="true">林</span><div><EvidenceLabel kind="demo">演示角色</EvidenceLabel><h2>小林 · 发行团队运营</h2></div></div>
+              <p>季度收益发放后，她拿到了付款记录。交出结果前，还要把每个人该收的钱与已确认付款对起来。</p>
+              <dl><div><dt>她手里的信息</dt><dd>发放规则、收款名单、付款记录</dd></div><div><dt>她要交出的结果</dt><dd>逐人结果、待查问题、对应的原始记录</dd></div></dl>
+            </article><div className="story-task-list"><h2>这次她要回答三个问题</h2><ol><li><strong>每个人都收齐了吗？</strong><p>总金额够了，也要查清每个人的金额。</p></li><li><strong>哪些付款还需要确认？</strong><p>还在等待、没有成功，和重复导入要分开看。</p></li><li><strong>负责人追问时，依据在哪？</strong><p>找到规则和原始表格中的对应行。</p></li></ol></div></div>
+            <div className="story-user-buyer"><span><Users size={18}/><b>优先使用者</b>发行团队运营</span><span><Building2 size={18}/><b>可能采购者</b>业务负责人</span></div>
+            <footer className="story-slide-note"><EvidenceLabel kind="hypothesis">目标客户尚未访谈验证</EvidenceLabel><span>优先了解小型发行团队；为基金处理日常事务的服务商、代币平台运营是相邻客户。先问他们是否已有足够好用的核对办法。</span></footer>
           </>}
 
           {item.id === 'problem' && <>
             <div className="story-problem-grid"><div className="story-problem-explanation"><EvidenceLabel kind="demo">5 人演示，不是真实客户数据</EvidenceLabel>
               <div className="story-total-comparison"><div><span>这次该发</span><strong>{amount(core.summary.expected_total)}</strong></div><div><span>表格里已发</span><strong>{amount(core.summary.confirmed_total)}</strong></div></div>
-              <h2>付出的总数更多，<br/>B 和 C 仍然没收齐。</h2><p>多发给 D 的钱，不能替 B 和 C 算作已收到。逐人检查后，仍有 <strong>{amount(core.summary.shortfall_total)} USDC</strong> 没发齐。</p>
+              <h2>付出的总数更多，<br/>B 和 C 仍然没收齐。</h2><p>小林发现：多发给 D 的钱，不能替 B 和 C 算作已收到。逐人检查后，仍有 <strong>{amount(core.summary.shortfall_total)} USDC</strong> 没发齐。</p><p className="story-story-next">下一页，选择一位收款人继续回查。</p>
             </div><div className="story-mini-ledger"><div className="story-mini-ledger-head"><span>收款人</span><span>该收</span><span>已发</span><span>检查结果</span></div>{core.holders.map(holder => <div className={holder.issue_codes.length ? 'has-problem' : ''} key={holder.holder_id}><strong>{holder.holder_id}</strong><span>{amount(holder.expected)}</span><span>{amount(holder.confirmed_paid)}</span><b>{holder.balance_status === 'short' ? '还没收齐' : holder.balance_status === 'over' ? '多发了' : '对得上'}</b></div>)}<p>单位：USDC。所有结果来自当前程序和原始示例文件。</p></div></div>
             <div className="story-public-fact"><EvidenceLabel kind="public">公开行业背景</EvidenceLabel><p>香港金管局 2023 年报告已将付息列为代币化债券的实际业务环节。它说明这个场景存在；我们的目标客户是否缺少核对工具、是否愿意付费，仍需访谈。</p><Reference href={HKMA_REPORT}>金管局《Bond Tokenisation in Hong Kong》，第 4、18 页</Reference></div>
           </>}
 
           {item.id === 'approach' && <>
-            <div className="story-workflow" aria-label="提供三份信息，逐人核对，生成可检查可保存的结果">
-              <div className="workflow-input"><FileSpreadsheet size={27}/><h2>准备信息</h2><p>发放规则<br/>收款名单<br/>付款记录</p></div><ArrowRight className="workflow-arrow" size={23}/>
-              <div className="workflow-process"><CheckCheck size={28}/><h2>逐人核对</h2><p>算该收的钱<br/>比较已确认付款<br/>保留待确认与失败记录</p></div><ArrowRight className="workflow-arrow" size={23}/>
-              <div className="workflow-output"><FileCheck2 size={27}/><h2>检查并保存</h2><p>哪里不对<br/>接下来怎么查<br/>对应哪一行</p></div>
+            <div className="story-core-toolbar"><EvidenceLabel kind="demo">与上一页相同的5人样本</EvidenceLabel><div className="story-core-picker" role="group" aria-label="选择5人案例中的收款人" data-local-keys>{core.anomalies.map(anomaly => <button key={anomaly.id} aria-pressed={coreHolderId === anomaly.holder_id} onClick={() => setCoreHolderId(anomaly.holder_id!)}>收款人 {anomaly.holder_id}</button>)}</div></div>
+            <div className="story-trace-grid"><div className="story-trace-sources"><h2>小林从这两处开始查</h2><article><FileSpreadsheet size={21}/><div><strong>收款名单 · 第 {coreHolder.source_row} 行</strong><p>{coreHolder.holder_id} 持有 {coreHolder.token_units} 个代币。规则是每个发 {amount(core.metadata.payout_per_token)} USDC。</p><Reference href="/examples/core/holders.csv">查看原始收款名单</Reference></div></article><article><Wallet size={21}/><div><strong>付款记录</strong>{corePayments.length ? corePayments.map(row => <p key={row.source_row}>第 {row.source_row} 行：{amount(row.amount)} USDC，表中标为已确认。</p>) : <p>表中没有找到这个收款地址的付款记录。还需核实是否漏传、未付或地址有误。</p>}<Reference href="/examples/core/payments.csv">查看原始付款记录</Reference></div></article></div>
+              <div className="story-core-result" aria-live="polite"><span className="story-core-result-label">收款人 {coreHolder.holder_id} 的核对结果</span><dl><div><dt>这个人该收</dt><dd>{amount(coreHolder.expected)}</dd></div><div><dt>表中已确认</dt><dd>{amount(coreHolder.confirmed_paid)}</dd></div></dl><h2>{coreText.title}</h2><p>{coreText.detail}</p><div className="story-next-action"><strong>接下来怎么查</strong><p>{coreText.action}</p></div></div>
             </div>
-            <div className="story-differences"><h2>针对这类发放，当前原型多做了三件事</h2><div><article><strong>名单和地址一起核对</strong><p>不知道付给谁的钱单独列出，不会按金额相同就随便归给某个人。</p></article><article><strong>区分重复记录与分次付款</strong><p>同一笔重复上传不多算；不同的付款记录可以是正常分次付款。</p></article><article><strong>告诉你为什么提醒</strong><p>把金额、付款状态、规则和原始行号连起来，方便回查。</p></article></div></div>
-            <footer className="story-slide-note"><EvidenceLabel kind="built">以上能力已经实现</EvidenceLabel><span>与现有产品相比是否有足够差异，仍需进一步调研。</span></footer>
+            <div className="story-handoff"><FileCheck2 size={23}/><div><strong>把结果交给负责人，也带上依据</strong><p>报告保存逐人结果、问题、付款明细和规则，方便复查；付款处理仍由授权人员决定。</p></div></div>
+            <footer className="story-slide-note"><EvidenceLabel kind="built">结果与行号来自当前程序</EvidenceLabel><span>单位：USDC。在工具中选择“5人简单示例”可复现。</span><Reference href="/project/core-review.png">查看 B 在工具中的实际画面</Reference></footer>
           </>}
 
           {item.id === 'evidence' && <>
@@ -147,20 +157,20 @@ export default function ProjectStory({ active, hash, presenting, onPresentingCha
           </>}
 
           {item.id === 'business' && <>
-            <div className="story-business-grid"><div className="story-buyer"><EvidenceLabel kind="hypothesis">商业设想，未确定定价</EvidenceLabel><h2>付费理由应该来自<br/>真实的核对成本。</h2><p>我们希望减少反复整理表格、查找差别和解释结果的工作。目前还没有客户访谈、付费订单或节时测量结果。</p><div className="story-buying-chain"><span><Users size={18}/>核对人员使用</span><ArrowRight size={18}/><span><Building2 size={18}/>业务负责人决定采购</span></div></div>
-              <div className="story-revenue"><div className="story-revenue-options" role="group" aria-label="收费方式设想" data-local-keys><button aria-pressed={revenue === 'per-run'} onClick={() => setRevenue('per-run')}>按次使用</button><button aria-pressed={revenue === 'subscription'} onClick={() => setRevenue('subscription')}>项目订阅</button></div>
-                <h3>{revenue === 'per-run' ? '先从一次发放开始' : '服务持续发放的项目'}</h3><p>{revenue === 'per-run' ? '让不常发放的小团队，按一次核对或一个批次购买服务。先验证是否愿意为这一次工作付费。' : '让定期发放的团队按项目订阅。历史记录、多人复查和持续服务是否值得付费，需要先确认；这些能力目前尚未实现。'}</p>
-                <dl><div><dt>要验证的价值</dt><dd>节省整理和回查的时间</dd></div><div><dt>要验证的付费条件</dt><dd>谁有预算，为什么愿意购买</dd></div><div><dt>报价前还需要</dt><dd>实际耗时、记录量和服务成本</dd></div></dl>
-              </div></div>
-            <div className="story-question"><strong>差异需要验证：</strong><p>客户现有的表格或发行平台，已经能做到哪些？独立核对和可解释报告，是否足以让他们增加一个工具？</p></div>
+            <table className="story-compare-table"><caption>现有办法与我们要验证的价值</caption><thead><tr><th scope="col">办法</th><th scope="col">已经能做什么</th><th scope="col">还要向客户核实</th></tr></thead><tbody>
+              <tr><th scope="row">手工表格</th><td data-label="已经能做什么">用公式、筛选和逐笔检查完成核对。</td><td data-label="还要向客户核实">整理、维护和回查各花多久？</td></tr>
+              <tr><th scope="row">已有发行平台<br/><small>以 Tokeny 为例</small></th><td data-label="已经能做什么">公开资料已介绍收益发放及报告能力。</td><td data-label="还要向客户核实">团队是否已在使用？还有哪些复查需要？</td></tr>
+              <tr><th scope="row">DistributionCheck<br/><small>当前原型</small></th><td data-label="已经能做什么">读取固定格式的表格，逐人比较，列出原因和原始行号。</td><td data-label="还要向客户核实">整理成模板是否方便？独立复查是否值得增加一步？</td></tr>
+            </tbody></table>
+            <div className="story-competition-source"><Reference href={TOKENY_DEBT}>Tokeny 收益发放说明</Reference><Reference href={TOKENY_PROCESS}>Tokeny 流程与报告说明</Reference></div>
+            <div className="story-commercial-grid"><div className="story-buyer"><EvidenceLabel kind="hypothesis">定位与收费待验证</EvidenceLabel><h2>先验证一次复查<br/>值不值得付费。</h2><p>假设小林使用工具、业务负责人决定采购。需要查清谁有预算、为什么购买，以及现有办法已经解决了多少。</p></div><div className="story-revenue"><div className="story-revenue-options" role="group" aria-label="收费方式设想" data-local-keys><button aria-pressed={revenue === 'per-run'} onClick={() => setRevenue('per-run')}>按次使用</button><button aria-pressed={revenue === 'subscription'} onClick={() => setRevenue('subscription')}>项目订阅</button></div><h3>{revenue === 'per-run' ? '先从一次发放开始' : '服务持续发放的项目'}</h3><p>{revenue === 'per-run' ? '考虑按一次核对或一个批次提供服务。先测量整理、运行和复查的总耗时，再了解负责人是否愿意购买。' : '考虑按项目持续服务。历史记录、多人复查是否值得付费要先确认；这些能力目前尚未实现。'}</p><p className="story-price-status">尚未确定价格，没有付费订单或节时测量结果。</p></div></div>
           </>}
 
           {item.id === 'next' && <>
-            <div className="story-next-columns"><article><EvidenceLabel kind="built">已有基础</EvidenceLabel><h2>用原型说明方案</h2><ul><li>上传自己的表格并检查输入</li><li>逐人核对金额和付款情况</li><li>查看问题原因及原始行号</li><li>导出结果、规则与完整记录</li></ul></article>
-              <article><EvidenceLabel kind="hypothesis">计划验证</EvidenceLabel><h2>补足商业与研究证据</h2><ul><li>访谈目标：3–5 个相关运营或服务团队</li><li>记录现有流程、耗时与常见问题</li><li>用同一组数据比较人工与工具核对</li><li>比较已有产品，测试付费意愿</li></ul></article>
-              <article><EvidenceLabel kind="hypothesis">准备申报</EvidenceLabel><h2>按老师要求整理提交</h2><ul><li>把选题写成有依据的创业方案</li><li>从老师指定的三个类别中选一类</li><li>按学生奖报名表准备所需材料</li><li>归档实际提交内容，再上传课程平台</li></ul></article></div>
-            <details className="story-source-details" ref={sourceDetailsRef}><summary>查看参赛方向与资料依据</summary><div><p><strong>方向建议：</strong>作为提供核对软件的项目，初步考虑 Ecosystem Infrastructure &amp; Technology Awards。最终类别和材料格式以报名表及老师说明为准；本页面不表示已经报名。</p><p><strong>学生奖公开评审重点：</strong>研究质量 30%、行业相关性 25%、创新 25%、展示 20%。这是奖项的公开标准，不是老师另行给出的课程评分表。</p><div className="story-source-links"><Reference href={DATS_AWARDS}>DATS 奖项类别</Reference><Reference href={DATS_JUDGING}>DATS 学生奖评审说明</Reference><Reference href={HKMA_REPORT}>金管局行业资料，2023</Reference></div><p>演示数据来自项目内的 5 人与 100 人样本，由当前核对程序生成。现有资料没有证明客户需求强度、付费意愿或节时效果，后续访谈和对比实验需要补充。</p></div></details>
-            <footer className="story-slide-note"><Flag size={17}/><span>先把问题、证据、方案与商业逻辑讲清楚，再按验证结果安排产品开发。</span></footer>
+            <div className="story-validation-intro"><EvidenceLabel kind="hypothesis">访谈与实验尚未执行</EvidenceLabel><p>先访谈 3–5 个相关团队，记录现有工具、工作步骤和常见问题，再检验下面三件事。</p></div>
+            <div className="story-measurements"><article><span>耗时</span><h2>完整做一遍，要多久？</h2><p>同一组输入，分别人工核对和使用工具。把整理格式、运行、查原因的时间都记下来。</p><strong>留下：逐步计时记录</strong></article><article><span>找对问题</span><h2>漏掉多少，多报多少？</h2><p>先给合成样本中的已知问题做清单，再逐条比对人工与工具的发现，保留没找到和多报的记录。</p><strong>留下：问题逐条对照表</strong></article><article><span>采购</span><h2>谁愿意为什么付费？</h2><p>向实际预算负责人了解使用频率、采购条件，以及愿意购买或拒绝的原因。</p><strong>留下：访谈与采购条件记录</strong></article></div>
+            <div className="story-course-delivery"><Flag size={19}/><p><strong>课程提交：</strong>选定奖项类别，整理创业方案与研究依据，按报名表准备材料；实际提交后归档，再上传课程平台。</p></div>
+            <details className="story-source-details" ref={sourceDetailsRef}><summary>查看参赛方向与资料依据</summary><div><p><strong>方向建议：</strong>初步考虑 Ecosystem Infrastructure &amp; Technology Awards。最终类别和材料以报名表及老师说明为准；本页面不表示已经报名。</p><p><strong>学生奖公开评审重点：</strong>研究质量 30%、行业相关性 25%、创新 25%、展示 20%。这是奖项公开标准，不是课程评分表。</p><div className="story-source-links"><Reference href={DATS_AWARDS}>DATS 奖项类别</Reference><Reference href={DATS_JUDGING}>DATS 学生奖评审说明</Reference><Reference href={HKMA_REPORT}>金管局行业资料，2023</Reference><Reference href={TOKENY_DEBT}>Tokeny 产品说明</Reference><Reference href={TOKENY_PROCESS}>Tokeny 流程 PDF</Reference><Reference href={ADDX}>ADDX 用户场景</Reference><Reference href={MDB}>MDB 学生冠军报道</Reference></div><p>展示参考了公开官网、产品说明与校方报道，未取得完整原始参赛 PPT。小林为演示角色；数字来自当前程序生成的合成样本。需求、付费意愿和节时效果均待验证。</p></div></details>
           </>}
         </section>)}
         <footer className="story-pagination"><button className="button button-secondary" disabled={index === 0} onClick={() => goTo(index - 1)}><ChevronLeft size={18}/>上一页</button><div><span role="status">{index + 1} / {CHAPTERS.length}</span><small>可用键盘左右键翻页</small></div><button className="button button-primary" disabled={index === CHAPTERS.length - 1} onClick={() => goTo(index + 1)}>下一页<ChevronRight size={18}/></button></footer>
