@@ -1,7 +1,7 @@
 import { localizeMessage } from './locale';
 import { LanguageSwitch, useI18n } from "./i18n";
 import { lazy, Suspense, useEffect, useRef, useState } from 'react';
-import { AlertTriangle, ArrowLeft, ArrowRight, Check, CheckCheck, CheckCircle2, FileCheck2, Info, LoaderCircle, Play, Presentation, X } from 'lucide-react';
+import { AlertTriangle, ArrowLeft, ArrowRight, Check, CheckCheck, CheckCircle2, FileCheck2, Info, LoaderCircle, PanelsTopLeft, Play, X } from 'lucide-react';
 import * as api from './api';
 import { Badge, Issues } from './components/Common';
 import { DataPreview, RulesForm, UploadBox } from './components/Inputs';
@@ -35,11 +35,10 @@ function requestRules(draft: Rules): Rules {
 
 export default function App() {
   const { t, language } = useI18n();
-  const [surface, setSurface] = useState<'tool' | 'project'>(() => window.location.hash.startsWith('#/project') ? 'project' : 'tool');
+  const [surface, setSurface] = useState<'tool' | 'project'>(() => window.location.hash === '#/tool' ? 'tool' : 'project');
   const [routeHash, setRouteHash] = useState(() => window.location.hash);
   const [projectHref, setProjectHref] = useState(() => window.location.hash.startsWith('#/project') ? window.location.hash : '#/project/overview');
-  const [projectVisited, setProjectVisited] = useState(() => window.location.hash.startsWith('#/project'));
-  const [presenting, setPresenting] = useState(false);
+  const [projectVisited, setProjectVisited] = useState(() => window.location.hash !== '#/tool');
   const [step, setStep] = useState(0);
   const [rules, setRules] = useState<Rules>(DEFAULT_RULES);
   const [holders, setHolders] = useState<File | null>(null);
@@ -72,10 +71,10 @@ export default function App() {
   useEffect(() => {
     const navigate = () => {
       const hash = window.location.hash;
-      if (hash.startsWith('#/project')) {
-        setSurface('project'); setProjectVisited(true); setProjectHref(hash); setRouteHash(hash);
-      } else if (hash === '#/tool' || hash === '') {
-        setSurface('tool'); setPresenting(false); setRouteHash(hash);
+      if (hash === '#/tool') {
+        setSurface('tool'); setRouteHash(hash);
+      } else {
+        setSurface('project'); setProjectVisited(true); setProjectHref(hash.startsWith('#/project') ? hash : '#/project/overview'); setRouteHash(hash);
       }
     };
     window.addEventListener('hashchange', navigate);
@@ -176,12 +175,12 @@ export default function App() {
   const canReconcile = canRun && validation?.valid === true;
   const scenarioOrder = [...scenarios].sort((a, b) => Number(b.id === 'comprehensive') - Number(a.id === 'comprehensive'));
 
-  return <div className={`app-shell ${surface === 'project' && presenting ? 'is-presenting' : ''}`}>
+  return <div className={`app-shell ${surface === 'project' ? 'is-project' : 'is-tool'}`}>
     <a className="skip-link" href={surface === 'project' ? '#project-content' : '#main-content'} onClick={event => { event.preventDefault(); document.getElementById(surface === 'project' ? 'project-content' : 'main-content')?.focus(); }}>{t("跳到主要内容")}</a>
-    <header className="app-header"><div className="header-inner"><div className="brand"><span className="brand-mark"><CheckCheck size={25}/></span><div><strong>DistributionCheck</strong><span>{surface === 'project' ? t("创业项目介绍") : t("收益发放核对")}</span></div></div>
+    <header className="app-header"><div className="header-inner"><a className="brand" href="#/project/overview" aria-label="DistributionCheck"><span className="brand-mark"><CheckCheck size={25}/></span><div><strong>DistributionCheck</strong></div></a>
+      <nav className="global-nav" aria-label={t("网站页面")}><a href={projectHref} aria-current={surface === 'project' ? 'page' : undefined}><PanelsTopLeft size={18}/><span>{t("项目介绍")}</span></a><a href="#/tool" aria-current={surface === 'tool' ? 'page' : undefined}><CheckCheck size={18}/><span>{t("收益核对")}</span></a></nav>
       <div className="header-actions"><LanguageSwitch/>{surface === 'tool' ? <button className="button button-secondary" onClick={() => setShowScenarios(!showScenarios)} aria-expanded={showScenarios} aria-controls="scenario-picker"><Play size={17}/>{showScenarios ? t("收起示例") : t("试用示例")}</button> : <a className="button button-secondary" href="#/tool">{t("打开核对工具")}</a>}</div>
     </div></header>
-    <nav className="global-nav" aria-label={t("网站页面")}><a href="#/tool" aria-current={surface === 'tool' ? 'page' : undefined}><CheckCheck size={23}/><span>{t("收益核对")}</span></a><a href={projectHref} aria-current={surface === 'project' ? 'page' : undefined}><Presentation size={23}/><span>{t("项目介绍")}</span></a></nav>
     <div className="workspace-container">
     <div className="surface tool-surface" hidden={surface !== 'tool'}>
     <nav className="process-nav" aria-label={t("核对步骤")}><ol>{STEPS.map((title, index) => <li key={title}><button aria-current={step === index ? 'step' : undefined} disabled={index === 2 && !result} onClick={() => setStep(index)}><span className="step-index">{index < step ? <Check size={17}/> : index + 1}</span><span>{t(title)}</span></button></li>)}</ol><p>{t("一次发放，逐人检查")}</p></nav>
@@ -219,7 +218,7 @@ export default function App() {
       <footer className="workspace-footer"><span>AF5640-gorup · DistributionCheck</span><span>{t("刷新页面后，需要重新上传表格。")}</span></footer>
     </main>
     </div>
-    {projectVisited && <div className="surface project-surface" hidden={surface !== 'project'}><Suspense fallback={<div className="story-loading" role="status"><LoaderCircle size={22} className="spin"/>{t("正在打开项目介绍…")}</div>}><ProjectStory active={surface === 'project'} hash={routeHash} presenting={presenting} onPresentingChange={setPresenting} onOpenTool={() => { window.location.hash = '/tool'; }}/></Suspense></div>}
+    {projectVisited && <div className="surface project-surface" hidden={surface !== 'project'}><Suspense fallback={<div className="story-loading" role="status"><LoaderCircle size={22} className="spin"/>{t("正在打开项目介绍…")}</div>}><ProjectStory active={surface === 'project'} hash={routeHash} onOpenTool={() => { window.location.hash = '/tool'; }}/></Suspense></div>}
     </div>
   </div>;
 }
