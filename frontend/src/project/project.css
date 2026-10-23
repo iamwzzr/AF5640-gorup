@@ -170,12 +170,6 @@
 .product-deliverables li { display: flex; gap: 11px; align-items: center; font-size: 15px; padding: 7px 0; }
 .product-deliverables svg { color: #187448; }
 .product-next { padding-bottom: 0; }
-.product-progress { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; margin-bottom: 68px; }
-.product-progress > div { border-top: 1px solid #d4d4da; padding-top: 24px; }
-.progress-dot { display: block; width: 11px; height: 11px; border-radius: 50%; border: 2px solid #96969e; margin-bottom: 16px; }
-.progress-built { background: #187448; border-color: #187448; }
-.product-progress h3 { font-size: 21px; margin-bottom: 10px; }
-.product-progress p { font-size: 15px; line-height: 1.8; color: var(--product-muted); max-width: 29em; }
 .product-project-details { border-top: 1px solid #d4d4da; }
 .product-project-details > details { border-bottom: 1px solid #d4d4da; }
 .product-project-details summary { display: flex; align-items: center; justify-content: space-between; gap: 25px; min-height: 82px; padding: 23px 0; cursor: pointer; list-style: none; font-size: 19px; font-weight: 550; line-height: 1.5; }
@@ -276,7 +270,6 @@
   .product-people-chart { width: min(100%, 460px); padding-top: 0; }
   .product-illustration-handoff img { aspect-ratio: 3 / 2; }
   .product-next { padding-bottom: 0; }
-  .product-progress { gap: 35px; }
   .product-final-cta { padding: 80px 0; }
   .product-footer { flex-wrap: wrap; }
   .product-footer > div { flex-basis: 100%; }
@@ -381,9 +374,6 @@
   .product-evidence-footnote > p { font-size: 11px; }
   .product-deliverables li { font-size: 14px; }
   .product-business-layout .product-section-heading p { font-size: 17px; }
-  .product-progress { grid-template-columns: 1fr; gap: 28px; margin-bottom: 37px; }
-  .product-progress h3 { font-size: 19px; }
-  .product-progress p { font-size: 14px; }
   .product-project-details summary { min-height: 78px; font-size: 17px; gap: 16px; padding: 20px 0; }
   .product-project-details details > div { padding-right: 0; }
   .product-project-details details > div > p { font-size: 14px; }
@@ -479,11 +469,6 @@
   .product-deliverables li { font-size: 13px; }
   .product-business .product-text-button { display: none; }
   .product-next .product-section-heading { margin-bottom: 20px; }
-  .product-progress { gap: 30px; margin-bottom: 20px; }
-  .product-progress > div { padding-top: 12px; }
-  .progress-dot { margin-bottom: 10px; }
-  .product-progress h3 { font-size: 16px; }
-  .product-progress p { font-size: 11px; }
   .product-project-details summary { min-height: 0; padding: 13px 0 8px; font-size: 13px; }
   .product-project-details summary > span, .product-project-details .product-segmented { display: none; }
   .product-project-details details { break-inside: avoid; }
