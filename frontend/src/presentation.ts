@@ -1,4 +1,6 @@
 import type { Anomaly, Holder, Ledger, Result } from './types.ts';
+import { localizeMessage, translate } from './locale.ts';
+import type { Language } from './locale.ts';
 
 export const CODE_LABELS: Record<string, string> = {
   SHORT_PAYMENT: '少发了', UNPAID: '还没查到付款', OVERPAYMENT: '多发了',
@@ -27,18 +29,18 @@ export function amount(value: string | null | undefined, exact = false): string 
   return `${sign}${integer.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}.${fraction}`;
 }
 export function isNonZero(value: string): boolean { return /[1-9]/.test(value); }
-export function displayTime(value: string | null | undefined): string {
-  return value ? `${new Date(value).toLocaleString('zh-CN', { hour12: false, timeZone: 'Asia/Shanghai' })}（北京时间）` : '—';
+export function displayTime(value: string | null | undefined, language: Language = 'zh'): string {
+  return value ? translate('{0}（北京时间）', language, { 0: new Date(value).toLocaleString(language === 'zh' ? 'zh-CN' : 'en-GB', { hour12: false, timeZone: 'Asia/Shanghai' }) }) : '—';
 }
-export function ledgerStatus(row: Ledger): string {
-  return row.status === 'confirmed' ? '已确认' : row.status === 'pending' ? '还在等确认' : '没成功';
+export function ledgerStatus(row: Ledger, language: Language = 'zh'): string {
+  return translate(row.status === 'confirmed' ? '已确认' : row.status === 'pending' ? '还在等确认' : '没成功', language);
 }
-export function ledgerTreatment(row: Ledger): string {
-  if (!row.included) return '这行暂不计算';
-  if (row.status === 'pending') return '暂不算已付';
-  return row.holder_id ? '已算入此人已付金额' : '单独列出，收款人不明';
+export function ledgerTreatment(row: Ledger, language: Language = 'zh'): string {
+  if (!row.included) return translate('这行暂不计算', language);
+  if (row.status === 'pending') return translate('暂不算已付', language);
+  return translate(row.holder_id ? '已算入此人已付金额' : '单独列出，收款人不明', language);
 }
-export function ledgerExplanation(row: Ledger): string {
+function ledgerExplanationChinese(row: Ledger): string {
   if (!row.included) return row.reason.startsWith('重复导入')
     ? '这行和另一行是同一笔付款，不重复计算。'
     : row.status === 'failed' ? '表格中这笔付款标为失败，不算已付。' : row.reason;
@@ -47,6 +49,9 @@ export function ledgerExplanation(row: Ledger): string {
     : '这笔付款还在等确认，收款地址也不在名单里。';
   return row.holder_id ? '表格中这笔付款标为已确认，已算到对应收款人名下。'
     : '付款已标为确认，但收款地址不在名单里，不能替任何人算作已付。';
+}
+export function ledgerExplanation(row: Ledger, language: Language = 'zh'): string {
+  return localizeMessage(ledgerExplanationChinese(row), language);
 }
 
 export type IssueGroup = 'all' | 'money' | 'identity' | 'status' | 'data';
@@ -60,7 +65,7 @@ export function issueGroup(code: string): IssueGroup {
   if (code === 'DUPLICATE_IMPORT') return 'data';
   return 'status';
 }
-export function issueCopy(item: Anomaly): { title: string; detail: string; action: string } {
+function issueCopyChinese(item: Anomaly): { title: string; detail: string; action: string } {
   const value = amount(item.amount);
   switch (item.code) {
     case 'UNPAID': return { title: '还没找到已确认的付款', detail: `按表格计算，还差 ${value}`, action: '先查有没有漏传记录，或付款还在确认，再决定要不要补发。' };
@@ -73,21 +78,29 @@ export function issueCopy(item: Anomaly): { title: string; detail: string; actio
     default: return { title: item.message, detail: '', action: item.suggested_action };
   }
 }
-export function resultConclusion(result: Result): { title: string; detail: string; tone: string } {
+export function issueCopy(item: Anomaly, language: Language = 'zh'): { title: string; detail: string; action: string } {
+  const copy = issueCopyChinese(item);
+  return { title: localizeMessage(copy.title, language), detail: localizeMessage(copy.detail, language), action: localizeMessage(copy.action, language) };
+}
+export function resultConclusion(result: Result, language: Language = 'zh'): { title: string; detail: string; tone: string } {
+  const t = (message: string, values?: Record<string, unknown>) => translate(message, language, values);
   const affected = result.summary.affected_holder_count;
   const unknown = result.anomalies.filter(item => item.code === 'UNMATCHED_WALLET').length;
   if (result.anomalies.length) {
-    const subjects = [affected ? `${affected} 位收款人需要检查` : '', unknown ? `${unknown} 笔付款不知道付给了谁` : ''].filter(Boolean);
-    return { title: '有几笔钱需要再检查一下', detail: `${subjects.join('；另有 ') || `有 ${result.anomalies.length} 条付款或表格记录需要检查`}。下面列出了问题和下一步怎么做。`, tone: 'warning' };
+    const subjects = [affected ? t(affected === 1 ? '1 位收款人需要检查' : '{0} 位收款人需要检查', { 0: affected }) : '', unknown ? t(unknown === 1 ? '1 笔付款不知道付给了谁' : '{0} 笔付款不知道付给了谁', { 0: unknown }) : ''].filter(Boolean);
+    return { title: t('有几笔钱需要再检查一下'), detail: t('{0}。下面列出了问题和下一步怎么做。', { 0: subjects.join(t('；另有 ')) || t('有 {0} 条付款或表格记录需要检查', { 0: result.anomalies.length }) }), tone: 'warning' };
   }
   const short = result.holders.filter(holder => holder.balance_status === 'short').length;
-  if (short) return { title: '还有人的钱没发齐', detail: `${short} 位收款人还没收齐，现在还没到最晚付款时间。可以在“收款名单”里查看。`, tone: 'warning' };
-  return { title: '按这两份表格，暂时没有发现问题', detail: `已逐人比较 ${result.summary.holder_count} 位收款人的金额。结果来自上传的表格，仍请确认实际付款情况。`, tone: 'success' };
+  if (short) return { title: t('还有人的钱没发齐'), detail: t('{0} 位收款人还没收齐，现在还没到最晚付款时间。可以在“收款名单”里查看。', { 0: short }), tone: 'warning' };
+  return { title: t('按这两份表格，暂时没有发现问题'), detail: t('已逐人比较 {0} 位收款人的金额。结果来自上传的表格，仍请确认实际付款情况。', { 0: result.summary.holder_count }), tone: 'success' };
 }
 export function matchesAnomaly(item: Anomaly, search: string, group: IssueGroup): boolean {
   const copy = issueCopy(item);
-  const text = `${item.holder_id || '不知道付给谁 收款人不明 收款人待识别 未知钱包'} ${item.wallet || ''} ${item.code} ${CODE_LABELS[item.code] || ''} ${copy.title} ${copy.action} ${item.message}`.toLowerCase();
-  return (group === 'all' || issueGroup(item.code) === group) && text.includes(search.trim().toLowerCase());
+  const english = issueCopy(item, 'en');
+  const query = search.trim().toLowerCase();
+  const englishWords = query.length > 1 ? `${english.title} ${english.action}` : '';
+  const text = `${item.holder_id || '不知道付给谁 收款人不明 收款人待识别 未知钱包 unknown recipient unidentified wallet'} ${item.wallet || ''} ${item.code} ${CODE_LABELS[item.code] || ''} ${copy.title} ${copy.action} ${item.message} ${englishWords}`.toLowerCase();
+  return (group === 'all' || issueGroup(item.code) === group) && text.includes(query);
 }
 export function matchesHolder(holder: Holder, search: string, filter: string): boolean {
   const matches = `${holder.holder_id} ${holder.wallet}`.toLowerCase().includes(search.trim().toLowerCase());
@@ -96,6 +109,8 @@ export function matchesHolder(holder: Holder, search: string, filter: string): b
       : filter === 'short' || filter === 'over' ? holder.balance_status === filter : holder.settlement_status === filter));
 }
 export function matchesLedger(row: Ledger, search: string, filter: string): boolean {
-  const text = `${row.holder_id || '不知道付给谁 收款人不明 未知钱包 收款人待识别'} ${row.to_wallet} ${row.tx_hash} ${row.reason} ${ledgerStatus(row)} ${ledgerTreatment(row)} ${ledgerExplanation(row)}`.toLowerCase();
-  return text.includes(search.trim().toLowerCase()) && (filter === 'all' || (filter === 'unknown' ? !row.holder_id : filter === 'excluded' ? !row.included : row.status === filter));
+  const query = search.trim().toLowerCase();
+  const englishWords = query.length > 1 ? `${ledgerStatus(row, 'en')} ${ledgerTreatment(row, 'en')} ${ledgerExplanation(row, 'en')}` : '';
+  const text = `${row.holder_id || '不知道付给谁 收款人不明 未知钱包 收款人待识别 unknown recipient unidentified wallet'} ${row.to_wallet} ${row.tx_hash} ${row.reason} ${ledgerStatus(row)} ${ledgerTreatment(row)} ${ledgerExplanation(row)} ${englishWords}`.toLowerCase();
+  return text.includes(query) && (filter === 'all' || (filter === 'unknown' ? !row.holder_id : filter === 'excluded' ? !row.included : row.status === filter));
 }

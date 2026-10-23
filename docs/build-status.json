@@ -8,7 +8,7 @@
   "automated_test_suite": true,
   "checks": [
     "40 backend business, parser, export, real HTTP and published project evidence regression tests",
-    "9 frontend API client and 11 frontend presentation regression tests using the Node test runner",
+    "9 frontend API client, 11 presentation and 9 localization regression tests using the Node test runner",
     "TypeScript and Vite production build; shell startup script syntax",
     "Three synthetic scenarios, including 100 holders: independent summary checks and mirrored files",
     "Browser: three-step flow, collapsed advanced settings, Chinese previews and input validation gate",
@@ -27,7 +27,12 @@
     "2026-10-23 narrative revision: fictional operator labelled; continuous five-holder B/C/D findings, exact amounts and original file rows verified; actual synthetic tool screenshot served",
     "2026-10-23 narrative revision: manual spreadsheet / existing platform / prototype comparison; Tokeny public servicing/reporting capabilities acknowledged; customer, timing and pricing assumptions remain unvalidated",
     "2026-10-23 narrative revision: seven chapters at 1440, 1024, 820, 768, 390 and 360px; mobile comparison caption and cards inspected; tool state retained; presentation Escape works from case buttons and select",
-    "2026-10-23 narrative revision: seven landscape A4 pages rendered and inspected, including seven source references; printing restores disclosure state"
+    "2026-10-23 narrative revision: seven landscape A4 pages rendered and inspected, including seven source references; printing restores disclosure state",
+    "2026-10-23 bilingual UI: remembered language, document language/title, settings/import/results/report and full source evidence; switching does not reset files, search, filter, case or report state or send new calculation requests",
+    "2026-10-23 bilingual UI: 56 chapter/language/viewport combinations (7 chapters, 2 languages, 1440/820/390/360px); translated actual screenshot and compact mobile controls; no uncaught page or console errors",
+    "2026-10-23 bilingual UI: real five-person and 100-person flows, pending-payment filter retained, actual malformed CSV blocked and stored errors translated in both directions; ZIP download retains five expected files",
+    "2026-10-23 illustrations: two generated fictional scenes in local WebP assets, no embedded text or amounts; source prompts and purpose documented in docs/VISUAL_ASSETS.md",
+    "2026-10-23 bilingual PDF: each language exports exactly seven landscape A4 pages; all 14 pages rendered and inspected, source disclosure restored after print"
   ],
   "scenario_results": {
     "core": {
@@ -98,7 +103,7 @@
   ],
   "source_sha256": {
     ".gitignore": "16a31e048fcf6d250bf26303188ade6e297e7f65204f0c2da1bee0f5de35415e",
-    "README.md": "1bc39f05c5aafd41aa77f7aa8cec02e6c8fad21bea6fb1a1f847724a9f12746d",
+    "README.md": "08558846be7174c31fb629ccb023dcfd66214e4e8030926cf6d932c80be6278f",
     "backend/app/__init__.py": "2ff0b27d0b1fc3bfb482113f5861350c3af78a3b5383a6c781b1d722b912d0f8",
     "backend/app/engine.py": "8da836c73c35b38173384db2bf766f532cdd37e4a9e65b2dd2346566461256be",
     "backend/app/export.py": "0b548be57cf4458b9d0d7a1eb5e5e93f6bc8e41774a9d29c1683bf4a0e646369",
@@ -109,43 +114,56 @@
     "backend/tests/test_project_evidence.py": "3b67967c5a1e2a5eaabcf68a269b7cf484a01a038ffa8750d45107fbcfd5a361",
     "backend/tests/test_reconciliation.py": "d772a08de663bddabbdb8f36e5b4dc742553ae0667dcc5075465f631dd922eb9",
     "docs/API_CONTRACT.md": "83d0898313e9ae2f1c2b651667c3aa879d94d1c35ad2f7fcfefc16b5954f37dd",
-    "docs/PROJECT_CHECK.md": "3080b906fa3d810c356576ef5d96f0b6d4a3263da6c14443a0906a64ec09aaff",
+    "docs/PROJECT_CHECK.md": "acb7a5237bc394a868c53cddb0099e6bf5e9e2e9a844021fd00b6efec7162dd1",
     "docs/preview.jpg": "430805b11533a93513f467bcb42632d664848171ca883bf0e212c9e659413200",
-    "docs/project-story-preview.jpg": "b69a98bf8c32a3e0257772d65729cc1384578cf224c94e5630dd4eb823891bbc",
+    "docs/project-story-preview.jpg": "ba5ebda261d2d1f0849495c695a79c30b5e3cdb215a3271acd40480326dda67e",
     "frontend/index.html": "6dbcac5c3727f9d536e8a8c66df00c710c1656177161003dc1906fb2479d7e48",
     "frontend/package-lock.json": "f2eb8d8fcb16d79a5668137267e4dc224a9e681d17bfa29bd352225c74898ead",
     "frontend/package.json": "31a986cc35e982960db1221e8718d71e9a9c243e6b90932b5a39fd17e0470838",
     "frontend/public/favicon.svg": "4ec0ec383321fb964658e4d80ee2216156fda27ffdb02ea533009789673b6733",
-    "frontend/public/project/core-review.png": "be450dfcdc65142eccc8fc77b951a2ba65bb2a3120974f603b9b301478a279c7",
-    "frontend/src/App.tsx": "4c0f025219101c167d011a92033d51e0d24dde72908da8437e467905048181dd",
+    "frontend/public/project/core-review.png": "3ea8463db0bd8f29440d8ced92e0336eb3c8d62a6c9822dd633fc1c1ff9ef7ca",
+    "frontend/src/App.tsx": "c868f20d26f362a81a046aac0c9c728d45c8ef5852a597914936d28cb9fb3ba2",
     "frontend/src/api.ts": "cb724278664267fa124d5e19523db567948c42f06ab895acb399b272c069d8e9",
-    "frontend/src/components/Common.tsx": "33add9e3bf7274645263990168a15c17f604b28eeee23ee7ffa39ef72b8a9c39",
-    "frontend/src/components/EvidenceDialog.tsx": "59309727e3f9fbf9c29998f473e4a49c588aed44873230c79843d48a71a08093",
-    "frontend/src/components/Inputs.tsx": "a4f765e784d421be2f298b96e1b63b21598e16c4520430f96b5ae032288a14cf",
-    "frontend/src/components/ReportView.tsx": "8eec5d6fcf7f7a2839f3cacb41b9d740c84aec0f131e48f7850ae6a346acb507",
-    "frontend/src/components/ResultsView.tsx": "60a7f1d86fdf44e9f25733308094a47c58008be5098770a8cfbeba790fa48ba7",
-    "frontend/src/main.tsx": "e81aec37c1befe991a35934ed8b90b73e7262a01e4dffae60e1ce87967ff09b4",
-    "frontend/src/presentation.ts": "5ddb2d1299ed03b8252eedb96a66d247eed2775607ade0aadd7b1d4838799f8d",
-    "frontend/src/project/ProjectStory.tsx": "7621751c7819c10e0ea0479eb4dfd7c218a7d18343772571f3456cc3c967a084",
+    "frontend/src/components/Common.tsx": "4469abbf4612582d447dfbdcd37ae9fe58eea7c8b9093b16f61b108ea416469e",
+    "frontend/src/components/EvidenceDialog.tsx": "a1d06746bf2fd095048302b84bedde1387383d3568ce8ff339a57337ccbfc4ba",
+    "frontend/src/components/Inputs.tsx": "0207589ebdc42f7d85db5ccb20bc3c31c39423738be2a8f46f720fbbc8bf34de",
+    "frontend/src/components/ReportView.tsx": "1c70d20e00cbdccd30865d0cbd997dfcb7b0be07b738d70e235a739323499d04",
+    "frontend/src/components/ResultsView.tsx": "2419c806fb01373cf5d8a6a5d4da9d30ef350d82aef3ac40f15a8695415c0059",
+    "frontend/src/main.tsx": "47d293c970f9b40831397d479bebcb9d4b9caf1d7e5b5f11abfd0c853f01655b",
+    "frontend/src/presentation.ts": "f860a80bd517e70a1b03ef67b1bea03b3e4c2905b16a3a70fb4a313ffb2bba09",
+    "frontend/src/project/ProjectStory.tsx": "b5bcfb64b83e36623c33a470865d90e93046668a49acc09d1ae4826ae26ce0c2",
     "frontend/src/project/evidence.json": "a461f5ae6934ca461dff08ffd5a9922693ffb921089a55fbb162cc59d683b183",
-    "frontend/src/project/project.css": "aa2639051a70d192b0a43f6d8dbf790c0559955fce0fbed28e07f382feba082d",
-    "frontend/src/styles.css": "2b9dd23187ef66f1f83c50f86b5475099df737961e420f6d495eb9204f0284cd",
+    "frontend/src/project/project.css": "0d1a0de02ae086b2de6c65c5b9b67220dbb2363dbef2de01b45b057316cf0d2c",
+    "frontend/src/styles.css": "53356df19437c0d8c5699b97f0755fec58901097734ac25823e7d3a23817be43",
     "frontend/src/types.ts": "8dd49fa220455649d0b4f4c54abc44e4a10c785581f26026794aac07ca93eb10",
     "frontend/tests/api.test.mjs": "a36baa2745a83e8ee98700269ad034a1126d52b0ace43ab7220eaba9ac033700",
     "frontend/tests/presentation.test.mjs": "4f2ab60a20dab140b49213a95679bfd85143d9ed9db80a46167dfda3605260d6",
     "sample-data/manifest.json": "aaeb5ec25143548971b89134df97f4aa92435ff083b8fd3a22c20802835a149f",
     "scripts/check.sh": "f174afc5912c8b47b76e9986656a11821a719f2c63b92a1e81fdaea17df4b1e8",
     "scripts/generate_examples.py": "490616bef73e2413228f08080228e464c8117de381c1ad7f1f4614a0af610f70",
-    "scripts/generate_project_evidence.py": "0d25ee82f9fbe5f55931bcafe17e96e6e0f54cc70e366ad819674995a97f2b11"
+    "scripts/generate_project_evidence.py": "0d25ee82f9fbe5f55931bcafe17e96e6e0f54cc70e366ad819674995a97f2b11",
+    "docs/VISUAL_ASSETS.md": "ae578a3e2a9773f56b442a37812afa71351b1984623c41d15ed31ad42865f56b",
+    "frontend/public/project/core-review-en.png": "9c36ce56811d4f33b064161844021041815cc81c9559f7b223d9ee8d75fe56cb",
+    "frontend/public/project/payout-review.webp": "9575dec2ad59e2a04fe80be6401c4902b4a838efe807707d655ef0d9846bc015",
+    "frontend/public/project/report-handoff.webp": "33e38ce44332a9a70380b731fe1bb721709cdccd524b4163de6db30c169c2adf",
+    "frontend/src/i18n.tsx": "0afd920cecda2dcbef44d52622e8f10bd17b189ae59e898b3f198dc49234498f",
+    "frontend/src/locale-issues.ts": "05c0e8995f5043663a84842e4c21834ef5d9d41b4032fd37bb47055d0199fa77",
+    "frontend/src/locale.ts": "eb6aa787eb33421edf5e3e5a6c5fe2cf80c31411ec242803eb752d1cc0bd6494",
+    "frontend/src/translations.ts": "cc8a1d7aab86956d902e35177526189c5c5cc1c51e2181924d0a6f54422fc1d6",
+    "frontend/src/translations/story.ts": "a029dbe93b707e129308422b3eaa5067e5a946c6c40231728cfb2d870c530ba1",
+    "frontend/src/translations/system.ts": "83b56908c93f43c70e7801e0b111beab73fbd2baca7dd9cbcc5644d13a848a53",
+    "frontend/src/translations/tool.ts": "36ee916f6f53ced3da6f5dbd3ec4d780318e1a7043d14f1551fad00b5e24ea4f",
+    "frontend/tests/locale.test.mjs": "ef9d37bc66fedc25afe5b02fdd10199b8b80a8c249090be86e9f34eea17a5ab9"
   },
   "version": "1.1.0",
   "automated_tests": {
     "backend": 40,
     "frontend_api": 9,
     "frontend_presentation": 11,
-    "total": 60,
+    "total": 69,
     "result": "passed",
-    "command": "./scripts/check.sh"
+    "command": "./scripts/check.sh",
+    "frontend_localization": 9
   },
   "fixed_issues": [
     "Double rounding of the explanatory rounding adjustment",
@@ -224,7 +242,39 @@
       390,
       360
     ],
-    "uncaught_page_errors_in_plain_language_checks": 0
+    "uncaught_page_errors_in_plain_language_checks": 0,
+    "bilingual": {
+      "languages": [
+        "zh-CN",
+        "en"
+      ],
+      "preference_persisted_after_reload": true,
+      "language_change_retains": [
+        "files",
+        "rules",
+        "result",
+        "search",
+        "payment_filter",
+        "open_evidence",
+        "expanded_source",
+        "project_chapter",
+        "selected_case",
+        "selected_example_issue",
+        "pricing_choice"
+      ],
+      "language_change_calculation_requests": 0,
+      "chapter_language_viewport_combinations": 56,
+      "viewport_widths": [
+        1440,
+        820,
+        390,
+        360
+      ],
+      "real_malformed_csv_blocked": true,
+      "full_evidence_translated": true,
+      "console_errors": 0,
+      "console_warnings": 0
+    }
   },
   "notes": "See docs/PROJECT_CHECK.md for scope, fixed issues, evidence and unimplemented capabilities.",
   "ui_changes": [
@@ -235,13 +285,16 @@
     "Readable report summary and five-file ZIP export",
     "Responsive labelled result cards, visible focus and native modal evidence",
     "Everyday Chinese labels, instructions, status messages and demo descriptions; technical identifiers, source explanations and report file names disclosed only when expanded",
-    "Project introduction follows a fictional operator, traces the same five-holder example to source rows, compares existing methods and describes measurable validation plans"
+    "Project introduction follows a fictional operator, traces the same five-holder example to source rows, compares existing methods and describes measurable validation plans",
+    "Chinese/English switch on the main header, evidence dialog and presentation toolbar; persisted language preference and preserved review state",
+    "Two fictional editorial illustrations, a source-backed 100/90/10 example and locale-specific actual tool screenshots; seven-page PDF layout in both languages"
   ],
   "automated_test_counts": {
     "backend": 40,
     "frontend_api": 9,
     "frontend_presentation": 11,
-    "total": 60
+    "total": 69,
+    "frontend_localization": 9
   },
   "project_introduction": {
     "route": "#/project/overview",
@@ -293,6 +346,22 @@
     "customer_interviews_completed": false,
     "timing_or_accuracy_benchmark_completed": false,
     "escape_from_focused_controls": "passed",
-    "mobile_comparison_caption": "passed"
+    "mobile_comparison_caption": "passed",
+    "languages": [
+      "zh-CN",
+      "en"
+    ],
+    "print_pages_by_language": {
+      "zh": 7,
+      "en": 7
+    },
+    "real_tool_screenshots": [
+      "frontend/public/project/core-review.png",
+      "frontend/public/project/core-review-en.png"
+    ],
+    "illustrations": [
+      "frontend/public/project/payout-review.webp",
+      "frontend/public/project/report-handoff.webp"
+    ]
   }
 }
