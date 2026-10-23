@@ -32,7 +32,9 @@
     "2026-10-23 navigation: 24 introduction/tool/language/viewport header combinations checked for overlapping controls, content below the header and horizontal overflow; compact English navigation label verified",
     "2026-10-23 course scope: removed the optional interviews, timing comparisons and purchasing-intent plan from Chinese and English product copy and print output; retained actual capabilities and pricing ideas",
     "2026-10-23 course scope: all 29 frontend tests and production build passed; four Chinese/English desktop/mobile layout checks, no optional-plan copy in expanded content, no untranslated English text or uncaught page errors",
-    "2026-10-23 product website PDF: seven A4 portrait pages in each language, updated product details rendered and inspected; disclosure state restored after printing"
+    "2026-10-23 product website PDF: seven A4 portrait pages in each language, updated product details rendered and inspected; disclosure state restored after printing",
+    "2026-10-23 shared header: removed surface-specific alignment and header actions; 18 Chinese/English switch comparisons across 320/360/390/768/800/801/820/1024/1440px verify identical header, brand, navigation-link and language-control rectangles on both surfaces; no overlaps, example toggle works in tool steps",
+    "2026-10-23 shared header: 29 frontend tests and production build passed; real core validation/review, bilingual evidence, retained search/results across navigation and five-file ZIP download passed; refreshed actual tool screenshots"
   ],
   "scenario_results": {
     "core": {
@@ -103,7 +105,7 @@
   ],
   "source_sha256": {
     ".gitignore": "16a31e048fcf6d250bf26303188ade6e297e7f65204f0c2da1bee0f5de35415e",
-    "README.md": "6a9250dc86e9c341bad8e8913255406d4467c637d14275377ca47b8951fe25d1",
+    "README.md": "d05bee7a22270708b33ec424e104aae692ef70c857a79af315ca5fcb8ca88145",
     "backend/app/__init__.py": "2ff0b27d0b1fc3bfb482113f5861350c3af78a3b5383a6c781b1d722b912d0f8",
     "backend/app/engine.py": "8da836c73c35b38173384db2bf766f532cdd37e4a9e65b2dd2346566461256be",
     "backend/app/export.py": "0b548be57cf4458b9d0d7a1eb5e5e93f6bc8e41774a9d29c1683bf4a0e646369",
@@ -114,15 +116,15 @@
     "backend/tests/test_project_evidence.py": "3b67967c5a1e2a5eaabcf68a269b7cf484a01a038ffa8750d45107fbcfd5a361",
     "backend/tests/test_reconciliation.py": "d772a08de663bddabbdb8f36e5b4dc742553ae0667dcc5075465f631dd922eb9",
     "docs/API_CONTRACT.md": "83d0898313e9ae2f1c2b651667c3aa879d94d1c35ad2f7fcfefc16b5954f37dd",
-    "docs/PROJECT_CHECK.md": "cea3ccfaaf3d43d8de99388be44069d5dcee46a9186a663f38d861b50e80833f",
+    "docs/PROJECT_CHECK.md": "bf825335abb573dd03287b93ced0d2eb0f5c3c75fa3163606cdbcffb459155fb",
     "docs/preview.jpg": "430805b11533a93513f467bcb42632d664848171ca883bf0e212c9e659413200",
-    "docs/project-story-preview.jpg": "834f5bb53b4b9bab4bcb7c122221c514070d6e34533998d488b8aa46575d9430",
+    "docs/project-story-preview.jpg": "ef3af0a1e7e6bba0c07a70820fd9319367f49b502adb6d3f07f1d30fa384572c",
     "frontend/index.html": "6dbcac5c3727f9d536e8a8c66df00c710c1656177161003dc1906fb2479d7e48",
     "frontend/package-lock.json": "f2eb8d8fcb16d79a5668137267e4dc224a9e681d17bfa29bd352225c74898ead",
     "frontend/package.json": "31a986cc35e982960db1221e8718d71e9a9c243e6b90932b5a39fd17e0470838",
     "frontend/public/favicon.svg": "4ec0ec383321fb964658e4d80ee2216156fda27ffdb02ea533009789673b6733",
-    "frontend/public/project/core-review.png": "75d3de79a102cb4986aa5abcc6d518893b983388491bd25c0f1cacfd365855db",
-    "frontend/src/App.tsx": "73edfe62fd56f13d23653bdc12c33bae74ce3069376bf1cf73a6263ebed8a3f5",
+    "frontend/public/project/core-review.png": "0be0bcdf0ad9abb160e82386fb89d5dc570e0b7a0bb2af693c2a7fcc38b6b0d1",
+    "frontend/src/App.tsx": "ed3b6abe0ec8e4caf74339d710f4b4c9ff79772daa7bc8eb4bbdee52c6e1d3b4",
     "frontend/src/api.ts": "cb724278664267fa124d5e19523db567948c42f06ab895acb399b272c069d8e9",
     "frontend/src/components/Common.tsx": "4469abbf4612582d447dfbdcd37ae9fe58eea7c8b9093b16f61b108ea416469e",
     "frontend/src/components/EvidenceDialog.tsx": "a1d06746bf2fd095048302b84bedde1387383d3568ce8ff339a57337ccbfc4ba",
@@ -134,7 +136,7 @@
     "frontend/src/project/ProjectStory.tsx": "6de3154066dc6432d0b3b7b7eb1e2a43322d804eae831d4363ea94a81586e779",
     "frontend/src/project/evidence.json": "a461f5ae6934ca461dff08ffd5a9922693ffb921089a55fbb162cc59d683b183",
     "frontend/src/project/project.css": "2bc6a0d36d3e3283ff79235ea9b63782080495ed8a6dd2a88b26cec358117d92",
-    "frontend/src/styles.css": "624e9d57ebee6d4ee68e0e21dc0d68a5337277e5175803df2d1ace47370e7d44",
+    "frontend/src/styles.css": "7ff9842e42adab9e547d0b94513632731d74a603acb7f1731114c92af0a88c10",
     "frontend/src/types.ts": "8dd49fa220455649d0b4f4c54abc44e4a10c785581f26026794aac07ca93eb10",
     "frontend/tests/api.test.mjs": "a36baa2745a83e8ee98700269ad034a1126d52b0ace43ab7220eaba9ac033700",
     "frontend/tests/presentation.test.mjs": "4f2ab60a20dab140b49213a95679bfd85143d9ed9db80a46167dfda3605260d6",
@@ -143,7 +145,7 @@
     "scripts/generate_examples.py": "490616bef73e2413228f08080228e464c8117de381c1ad7f1f4614a0af610f70",
     "scripts/generate_project_evidence.py": "0d25ee82f9fbe5f55931bcafe17e96e6e0f54cc70e366ad819674995a97f2b11",
     "docs/VISUAL_ASSETS.md": "eb6da095adb4ab0d2a690f2ab29feb79d2c8a739199f9d47df924f2680b2bd29",
-    "frontend/public/project/core-review-en.png": "3d817946114055c1a7d3a602818dfa3db52921d96b40f810821049fa1d391f44",
+    "frontend/public/project/core-review-en.png": "c10fdeb229aa38141d6bba1059a96741cc7ebcf06e0b1010669e9622c5ae0dfb",
     "frontend/public/project/payout-review.webp": "9575dec2ad59e2a04fe80be6401c4902b4a838efe807707d655ef0d9846bc015",
     "frontend/public/project/report-handoff.webp": "33e38ce44332a9a70380b731fe1bb721709cdccd524b4163de6db30c169c2adf",
     "frontend/src/i18n.tsx": "0afd920cecda2dcbef44d52622e8f10bd17b189ae59e898b3f198dc49234498f",
@@ -154,7 +156,7 @@
     "frontend/src/translations/system.ts": "83b56908c93f43c70e7801e0b111beab73fbd2baca7dd9cbcc5644d13a848a53",
     "frontend/src/translations/tool.ts": "ed7fe7d96b0413326b4cd1aefe45c440a7ea722b139de9988933000926a4c0f1",
     "frontend/tests/locale.test.mjs": "ef9d37bc66fedc25afe5b02fdd10199b8b80a8c249090be86e9f34eea17a5ab9",
-    "docs/PRODUCT_DESIGN.md": "7b4253531f307a486ad14dcf1f291b96db066e4790ed4d9b91ec713759e97897",
+    "docs/PRODUCT_DESIGN.md": "308f6902b825b9f8715e06be091b3e5b81d1dc0b3cb718ec21bd27db19a70752",
     "frontend/src/translations/product.ts": "d53ce53be409bf7ce79b095b1c2140c20a6ffaeee2017aaf36192edf103ae626"
   },
   "version": "1.1.0",
@@ -370,8 +372,11 @@
       "https://www.apple.com/os/macos/",
       "https://github.com/emilkowalski/skills/blob/main/skills/apple-design/SKILL.md"
     ],
-    "header_combinations_checked": 24,
-    "optional_validation_plan_displayed": false
+    "header_combinations_checked": 36,
+    "optional_validation_plan_displayed": false,
+    "header_switch_comparisons_checked": 18,
+    "shared_header_structure": true,
+    "example_toggle_location": "Tool step area"
   },
   "previous_ui_checks": [
     "2026-10-23 browser: seven project chapters, synthetic evidence labels, 10 issue choices, unknown-payment isolation and pending-payment guidance",
