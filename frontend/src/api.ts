@@ -1,4 +1,5 @@
 import type { Rules, Issue, Validation, Result } from './types';
+import { browserRuntime } from './site.ts';
 
 export class ApiError extends Error {
   issues: Issue[];
@@ -11,9 +12,15 @@ function payload(rules: Rules, holders: File, payments: File): FormData {
 }
 async function request(path: string, rules: Rules, holders: File, payments: File, signal: AbortSignal, expectedType = 'application/json'): Promise<Response> {
   let response: Response;
-  try { response = await fetch(path, { method: 'POST', body: payload(rules, holders, payments), signal }); }
+  try {
+    if (browserRuntime) {
+      const { runInBrowser } = await import('./browser-runtime/client.ts');
+      response = await runInBrowser(path, rules, holders, payments, signal);
+    } else response = await fetch(path, { method: 'POST', body: payload(rules, holders, payments), signal });
+  }
   catch (error) {
     if (error instanceof DOMException && error.name === 'AbortError') throw error;
+    if (browserRuntime) throw new ApiError('核对功能未能加载，请检查网络后重试。');
     throw new ApiError('无法连接核对服务。请重新启动项目，再试一次。');
   }
   if (!response.ok) {

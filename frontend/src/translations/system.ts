@@ -1,4 +1,5 @@
 export const SYSTEM_ENGLISH: Record<string, string> = {
+  '核对功能未能加载，请检查网络后重试。': 'The review tool could not load. Check your connection and try again.',
   '1 位收款人需要检查': '1 recipient needs checking',
   '1 笔付款不知道付给了谁': '1 payment has no matched recipient',
   '重复导入：与付款文件第 {0} 行是同一事件，本行不重复计入。': 'Duplicate import: the same event appears in payment row {0}. This row is not counted again.',

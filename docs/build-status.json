@@ -1,7 +1,7 @@
 {
   "project": "AF5640-gorup",
-  "date": "2026-10-23",
-  "status": "implemented_and_checked_locally",
+  "date": "2026-10-27",
+  "status": "implemented_and_checked_locally_pages_activation_required",
   "frontend": "React + TypeScript + Vite",
   "backend": "FastAPI + Decimal",
   "database": false,
@@ -34,7 +34,12 @@
     "2026-10-23 course scope: all 29 frontend tests and production build passed; four Chinese/English desktop/mobile layout checks, no optional-plan copy in expanded content, no untranslated English text or uncaught page errors",
     "2026-10-23 product website PDF: seven A4 portrait pages in each language, updated product details rendered and inspected; disclosure state restored after printing",
     "2026-10-23 shared header: removed surface-specific alignment and header actions; 18 Chinese/English switch comparisons across 320/360/390/768/800/801/820/1024/1440px verify identical header, brand, navigation-link and language-control rectangles on both surfaces; no overlaps, example toggle works in tool steps",
-    "2026-10-23 shared header: 29 frontend tests and production build passed; real core validation/review, bilingual evidence, retained search/results across navigation and five-file ZIP download passed; refreshed actual tool screenshots"
+    "2026-10-23 shared header: 29 frontend tests and production build passed; real core validation/review, bilingual evidence, retained search/results across navigation and five-file ZIP download passed; refreshed actual tool screenshots",
+    "2026-10-27: all 40 server and 30 frontend regressions passed; TypeScript, normal Vite build and shell syntax passed",
+    "2026-10-27 Pages: project-prefix static build and actionlint workflow validation passed; all Python runtime dependencies self-hosted and SHA256 verified",
+    "2026-10-27 Pages: 34 existing business and published-evidence regressions passed in Python/WASM; all three scenarios validated, reconciled and exported; complete core/comprehensive results and fingerprints match server evidence",
+    "2026-10-27 static browser: 100-person real review, exact one-millionth amounts, retained language/filter/navigation state, malformed CSV blocking and CRC-checked five-file ZIP download passed without API or external requests",
+    "2026-10-27 static browser: input edits abort the worker and block obsolete results; edited payment CSV recomputes totals; readable worker-load failure and successful retry passed; 390px introduction/import have no document overflow"
   ],
   "scenario_results": {
     "core": {
@@ -104,8 +109,8 @@
     "No payment execution or production validation"
   ],
   "source_sha256": {
-    ".gitignore": "16a31e048fcf6d250bf26303188ade6e297e7f65204f0c2da1bee0f5de35415e",
-    "README.md": "d05bee7a22270708b33ec424e104aae692ef70c857a79af315ca5fcb8ca88145",
+    ".gitignore": "0df2ce7b43d0a52b2ccad5414d6fe03de7f6ebe9c491fedd9b88335b2da4b5c9",
+    "README.md": "120ec39c49b547490b169e3febff88d794c7fbe9fda9ed5ac36431938e94f96d",
     "backend/app/__init__.py": "2ff0b27d0b1fc3bfb482113f5861350c3af78a3b5383a6c781b1d722b912d0f8",
     "backend/app/engine.py": "8da836c73c35b38173384db2bf766f532cdd37e4a9e65b2dd2346566461256be",
     "backend/app/export.py": "0b548be57cf4458b9d0d7a1eb5e5e93f6bc8e41774a9d29c1683bf4a0e646369",
@@ -116,27 +121,27 @@
     "backend/tests/test_project_evidence.py": "3b67967c5a1e2a5eaabcf68a269b7cf484a01a038ffa8750d45107fbcfd5a361",
     "backend/tests/test_reconciliation.py": "d772a08de663bddabbdb8f36e5b4dc742553ae0667dcc5075465f631dd922eb9",
     "docs/API_CONTRACT.md": "83d0898313e9ae2f1c2b651667c3aa879d94d1c35ad2f7fcfefc16b5954f37dd",
-    "docs/PROJECT_CHECK.md": "bf825335abb573dd03287b93ced0d2eb0f5c3c75fa3163606cdbcffb459155fb",
+    "docs/PROJECT_CHECK.md": "6098ef455ee25f4647c0ee71725c855b06d89abb858bd984942c75f71c3033e6",
     "docs/preview.jpg": "430805b11533a93513f467bcb42632d664848171ca883bf0e212c9e659413200",
     "docs/project-story-preview.jpg": "ef3af0a1e7e6bba0c07a70820fd9319367f49b502adb6d3f07f1d30fa384572c",
-    "frontend/index.html": "6dbcac5c3727f9d536e8a8c66df00c710c1656177161003dc1906fb2479d7e48",
-    "frontend/package-lock.json": "f2eb8d8fcb16d79a5668137267e4dc224a9e681d17bfa29bd352225c74898ead",
-    "frontend/package.json": "31a986cc35e982960db1221e8718d71e9a9c243e6b90932b5a39fd17e0470838",
+    "frontend/index.html": "d39688019dfaf40ad183a6cb4834a27407089df10a91ba8330f5645f7d03276b",
+    "frontend/package-lock.json": "9fc65c96599ea94bd6431491d4999f4ae5dc0cf1be96dc558ef55b142ba8eaad",
+    "frontend/package.json": "88399855cb6e93e3db7edf204b204d705f04eea03c83428490da40d3fe3b89e0",
     "frontend/public/favicon.svg": "4ec0ec383321fb964658e4d80ee2216156fda27ffdb02ea533009789673b6733",
     "frontend/public/project/core-review.png": "0be0bcdf0ad9abb160e82386fb89d5dc570e0b7a0bb2af693c2a7fcc38b6b0d1",
-    "frontend/src/App.tsx": "ed3b6abe0ec8e4caf74339d710f4b4c9ff79772daa7bc8eb4bbdee52c6e1d3b4",
-    "frontend/src/api.ts": "cb724278664267fa124d5e19523db567948c42f06ab895acb399b272c069d8e9",
+    "frontend/src/App.tsx": "a1d53d8836e64c6554eb3a610dfaee15a89516f4d80c7314d806b6d4cc2d038e",
+    "frontend/src/api.ts": "e864bad5a883f4926203754d099d95a42910efdbd0c82b92e9df0634c1dc5f04",
     "frontend/src/components/Common.tsx": "4469abbf4612582d447dfbdcd37ae9fe58eea7c8b9093b16f61b108ea416469e",
     "frontend/src/components/EvidenceDialog.tsx": "a1d06746bf2fd095048302b84bedde1387383d3568ce8ff339a57337ccbfc4ba",
-    "frontend/src/components/Inputs.tsx": "0207589ebdc42f7d85db5ccb20bc3c31c39423738be2a8f46f720fbbc8bf34de",
+    "frontend/src/components/Inputs.tsx": "68185949c3e04ea7ea5561cac0f08f8fafe35d6d06467975a7d6aab79c4a2800",
     "frontend/src/components/ReportView.tsx": "1c70d20e00cbdccd30865d0cbd997dfcb7b0be07b738d70e235a739323499d04",
     "frontend/src/components/ResultsView.tsx": "2419c806fb01373cf5d8a6a5d4da9d30ef350d82aef3ac40f15a8695415c0059",
     "frontend/src/main.tsx": "47d293c970f9b40831397d479bebcb9d4b9caf1d7e5b5f11abfd0c853f01655b",
     "frontend/src/presentation.ts": "f860a80bd517e70a1b03ef67b1bea03b3e4c2905b16a3a70fb4a313ffb2bba09",
-    "frontend/src/project/ProjectStory.tsx": "6de3154066dc6432d0b3b7b7eb1e2a43322d804eae831d4363ea94a81586e779",
+    "frontend/src/project/ProjectStory.tsx": "90fa5c299ead186cc7a97ad959fbbc39b95d6878dac6caeb83d0caf7940397b8",
     "frontend/src/project/evidence.json": "a461f5ae6934ca461dff08ffd5a9922693ffb921089a55fbb162cc59d683b183",
     "frontend/src/project/project.css": "2bc6a0d36d3e3283ff79235ea9b63782080495ed8a6dd2a88b26cec358117d92",
-    "frontend/src/styles.css": "7ff9842e42adab9e547d0b94513632731d74a603acb7f1731114c92af0a88c10",
+    "frontend/src/styles.css": "472dc26560142c6919f41469dd8ecc3b7ef919df8adb8d7f36fd7355fb930002",
     "frontend/src/types.ts": "8dd49fa220455649d0b4f4c54abc44e4a10c785581f26026794aac07ca93eb10",
     "frontend/tests/api.test.mjs": "a36baa2745a83e8ee98700269ad034a1126d52b0ace43ab7220eaba9ac033700",
     "frontend/tests/presentation.test.mjs": "4f2ab60a20dab140b49213a95679bfd85143d9ed9db80a46167dfda3605260d6",
@@ -153,21 +158,34 @@
     "frontend/src/locale.ts": "eb6aa787eb33421edf5e3e5a6c5fe2cf80c31411ec242803eb752d1cc0bd6494",
     "frontend/src/translations.ts": "46dbfbe041811c0e663f936e8c0a8a84394b5a51cefecb074440c04bb255e13d",
     "frontend/src/translations/story.ts": "a029dbe93b707e129308422b3eaa5067e5a946c6c40231728cfb2d870c530ba1",
-    "frontend/src/translations/system.ts": "83b56908c93f43c70e7801e0b111beab73fbd2baca7dd9cbcc5644d13a848a53",
-    "frontend/src/translations/tool.ts": "ed7fe7d96b0413326b4cd1aefe45c440a7ea722b139de9988933000926a4c0f1",
+    "frontend/src/translations/system.ts": "91c5081ee432059f5b293e54381ad8d965ed5f5703a2536a44dc92d4739d2f86",
+    "frontend/src/translations/tool.ts": "18742d73b0793c504b638958c2c1fe55e402a04e1fc7b6d93c692c6d00743162",
     "frontend/tests/locale.test.mjs": "ef9d37bc66fedc25afe5b02fdd10199b8b80a8c249090be86e9f34eea17a5ab9",
     "docs/PRODUCT_DESIGN.md": "308f6902b825b9f8715e06be091b3e5b81d1dc0b3cb718ec21bd27db19a70752",
-    "frontend/src/translations/product.ts": "d53ce53be409bf7ce79b095b1c2140c20a6ffaeee2017aaf36192edf103ae626"
+    "frontend/src/translations/product.ts": "d53ce53be409bf7ce79b095b1c2140c20a6ffaeee2017aaf36192edf103ae626",
+    "frontend/scripts/check-browser-engine.mjs": "0b87711e4288d4933afa5f07f59ab97de9aad369012c3a17e702fd9bb24040fb",
+    "frontend/vite.config.ts": "c850b797fb8b66d3b130043d896ef51c0d3ddee292d17e028736277b1721f261",
+    "frontend/src/vite-env.d.ts": "65996936fbb042915f7b74a200fcdde7e410f32a669b1ab9597cfaa4b0faddb5",
+    "frontend/src/browser-runtime/protocol.ts": "c1e0fae6ce33e0578942bd17ca6873f313f95441d3d9573a048c096f95a0c93e",
+    "docs/GITHUB_PAGES.md": "3c0527d2f840bee4e9eed61ec6750681198d30d16c8f5e8ec4e63e07bb456d3e",
+    "frontend/src/browser-runtime/client.ts": "42e9acfca2831ea3ff6919c4bbe6f250a1ed214ba9a32c5140a1908ae1943c5f",
+    ".github/workflows/pages.yml": "88ebbc9226a2ece244728f958f313900109938f1c4e8781e34547daee484a297",
+    "frontend/scripts/prepare-pages.mjs": "ae9becb96f78f8dc31df673dcf612ac1437e3fd7aedcb882688f4cbca65703c0",
+    "frontend/src/browser-runtime/bridge.py": "3012b5a6cd1f76de501e8d3ab20e4c8061796e4288746fdfeb2b7f092fbebd54",
+    "frontend/src/browser-runtime/engine.worker.ts": "74d4501a2911298fcb74dd2b2aa233e01232d91b8e2c4c9b9f346a6aa11dde6d",
+    "frontend/tests/site.test.mjs": "42d9409a028e9df9da74b5a436cf6813281114f2d1aa79d38c1f8873dda9ba98",
+    "frontend/src/site.ts": "f48cbae21e473ce2626f42e16f653f482698510bb9892f0e35caa16992768032"
   },
   "version": "1.1.0",
   "automated_tests": {
     "backend": 40,
     "frontend_api": 9,
     "frontend_presentation": 11,
-    "total": 69,
+    "total": 70,
     "result": "passed",
     "command": "./scripts/check.sh",
-    "frontend_localization": 9
+    "frontend_localization": 9,
+    "frontend_hosting": 1
   },
   "fixed_issues": [
     "Double rounding of the explanatory rounding adjustment",
@@ -289,7 +307,7 @@
     "Readable report summary and five-file ZIP export",
     "Responsive labelled result cards, visible focus and native modal evidence",
     "Everyday Chinese labels, instructions, status messages and demo descriptions; technical identifiers, source explanations and report file names disclosed only when expanded",
-    "Project introduction follows a fictional operator, traces the same five-holder example to source rows, compares existing methods and describes measurable validation plans",
+    "Project introduction follows a fictional operator, traces the same five-holder example to source rows, compares existing methods and describes current capabilities and pricing ideas",
     "Chinese/English switch on the main header, evidence dialog and presentation toolbar; persisted language preference and preserved review state",
     "Two fictional editorial illustrations, a source-backed 100/90/10 example and locale-specific actual tool screenshots; seven-page PDF layout in both languages"
   ],
@@ -297,8 +315,9 @@
     "backend": 40,
     "frontend_api": 9,
     "frontend_presentation": 11,
-    "total": 69,
-    "frontend_localization": 9
+    "total": 70,
+    "frontend_localization": 9,
+    "frontend_hosting": 1
   },
   "project_introduction": {
     "route": "#/project/overview",
@@ -389,5 +408,55 @@
     "2026-10-23 narrative revision: seven landscape A4 pages rendered and inspected, including seven source references; printing restores disclosure state",
     "2026-10-23 bilingual UI: 56 chapter/language/viewport combinations (7 chapters, 2 languages, 1440/820/390/360px); translated actual screenshot and compact mobile controls; no uncaught page or console errors",
     "2026-10-23 bilingual PDF: each language exports exactly seven landscape A4 pages; all 14 pages rendered and inspected, source disclosure restored after print"
-  ]
+  ],
+  "github_pages": {
+    "workflow": ".github/workflows/pages.yml",
+    "triggers": [
+      "push: main",
+      "workflow_dispatch"
+    ],
+    "expected_url": "https://iamwzzr.github.io/AF5640-gorup/",
+    "deployment_status": "requires_repository_administrator_to_enable_pages_source_github_actions",
+    "settings_url": "https://github.com/iamwzzr/AF5640-gorup/settings/pages",
+    "observed_permissions": {
+      "push": true,
+      "admin": false,
+      "maintain": false,
+      "has_pages": false
+    },
+    "build_command": "VITE_BASE_PATH=/AF5640-gorup/ npm --prefix frontend run build:pages",
+    "engine_test_command": "npm --prefix frontend run test:pages",
+    "runtime": {
+      "engine": "same backend Python modules in a browser Web Worker",
+      "pyodide": "314.0.7",
+      "python": "3.14.2",
+      "pydantic": "2.12.5",
+      "server_pydantic": "2.14.1",
+      "self_hosted": true,
+      "lazy_loaded": true,
+      "regression_tests": 34,
+      "scenario_adapter_checks": [
+        "core",
+        "edge",
+        "comprehensive"
+      ]
+    },
+    "browser_checks": {
+      "static_project_prefix": "/AF5640-gorup/",
+      "comprehensive_review": true,
+      "custom_csv_recomputed": true,
+      "malformed_csv_blocked": true,
+      "report_zip_crc_and_five_files": true,
+      "language_and_filter_retained": true,
+      "mobile_width": 390,
+      "input_edit_aborts_worker": true,
+      "obsolete_result_blocked": true,
+      "load_failure_and_retry": true,
+      "api_requests": 0,
+      "external_requests": 0,
+      "uncaught_errors_in_normal_flow": 0
+    },
+    "first_load_note": "The first file check loads the self-hosted Python runtime; publish artifact is approximately 17 MB including images.",
+    "local_server_mode_retained": true
+  }
 }

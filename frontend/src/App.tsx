@@ -1,5 +1,6 @@
 import { localizeMessage } from './locale';
 import { LanguageSwitch, useI18n } from "./i18n";
+import { assetUrl, browserRuntime } from './site';
 import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { AlertTriangle, ArrowLeft, ArrowRight, Check, CheckCheck, CheckCircle2, FileCheck2, Info, LoaderCircle, PanelsTopLeft, Play, X } from 'lucide-react';
 import * as api from './api';
@@ -60,7 +61,7 @@ export default function App() {
 
   useEffect(() => {
     const c = new AbortController();
-    fetch('/examples/manifest.json', { signal: c.signal }).then(response => {
+    fetch(assetUrl('examples/manifest.json'), { signal: c.signal }).then(response => {
       if (!response.ok) throw new Error();
       return response.json();
     }).then(data => setScenarios(data.scenarios || [])).catch(e => {
@@ -124,7 +125,7 @@ export default function App() {
     const requestVersion = version.current;
     const c = new AbortController(); controller.current = c; setBusy('scenario');
     try {
-      const responses = await Promise.all([fetch(scenario.holders_url, { signal: c.signal }), fetch(scenario.payments_url, { signal: c.signal })]);
+      const responses = await Promise.all([fetch(assetUrl(scenario.holders_url), { signal: c.signal }), fetch(assetUrl(scenario.payments_url), { signal: c.signal })]);
       if (responses.some(response => !response.ok)) throw new Error(t("示例文件无法下载，请重试。"));
       const [h, p] = await Promise.all(responses.map(response => response.blob()));
       if (version.current !== requestVersion) return;
@@ -185,6 +186,7 @@ export default function App() {
     <div className="surface tool-surface" hidden={surface !== 'tool'}>
     <nav className="process-nav" aria-label={t("核对步骤")}><ol>{STEPS.map((title, index) => <li key={title}><button aria-current={step === index ? 'step' : undefined} disabled={index === 2 && !result} onClick={() => setStep(index)}><span className="step-index">{index < step ? <Check size={17}/> : index + 1}</span><span>{t(title)}</span></button></li>)}</ol><div className="process-actions"><p>{t("一次发放，逐人检查")}</p><button className="scenario-toggle" onClick={() => setShowScenarios(!showScenarios)} aria-expanded={showScenarios} aria-controls="scenario-picker"><Play size={17}/>{showScenarios ? t("收起示例") : t("试用示例")}</button></div></nav>
     <main id="main-content" tabIndex={-1}>
+      {browserRuntime && <div className="info-strip pages-runtime-note"><Info size={19}/><p>{t("本页在浏览器中核对表格，文件不会上传到服务器。首次使用会加载核对功能，请稍等片刻。")}</p></div>}
       {showScenarios && <section className="scenario-panel" id="scenario-picker"><div className="section-line"><div><h2>{t("先用示例试一次")}</h2><p>{t("不用准备表格，选一个例子就能开始。")}</p></div><Badge tone="warning">{t("演示用数据")}</Badge></div>
         <div className="scenario-grid">{scenarioOrder.map(scenario => <button key={scenario.id} aria-label={t("载入{0}", { "0": t(scenario.name) })} className={`scenario-option ${scenario.id === 'comprehensive' ? 'featured-scenario' : ''}`} onClick={() => loadScenario(scenario)} disabled={Boolean(busy)}><strong>{t(scenario.name)}</strong><p>{t(scenario.description)}</p><span>{t("载入示例")}<ArrowRight size={16}/></span></button>)}</div>
         {!scenarios.length && <p className="muted">{localizeMessage(scenarioError, language) || t("正在读取示例…")}</p>}

@@ -1,4 +1,5 @@
 import { useI18n } from "../i18n";
+import { assetUrl } from '../site';
 import { useRef, useState } from 'react';
 import type { ChangeEvent, RefObject } from 'react';
 import { ArrowRight, CheckCircle2, Download, FileSpreadsheet, Info, UploadCloud } from 'lucide-react';
@@ -64,7 +65,7 @@ export function UploadBox({ kind, file, onChange }: { kind: 'holders' | 'payment
     </button>
     <input ref={input} type="file" accept=".csv,text/csv" className="visually-hidden" aria-label={t("上传{0}", { "0": title })}
       onChange={event => { onFile(event.target.files?.[0]); event.target.value = ''; }}/>
-    <a className="text-link" href={`/examples/templates/${kind}.csv`} download><Download size={17}/>{t("下载")}{title}{t("模板")}</a>
+    <a className="text-link" href={assetUrl(`examples/templates/${kind}.csv`)} download><Download size={17}/>{t("下载")}{title}{t("模板")}</a>
     <p className="table-note">{t("可先下载模板，用 Excel 填好后保存为 CSV 文件。")}</p>
   </section>;
 }

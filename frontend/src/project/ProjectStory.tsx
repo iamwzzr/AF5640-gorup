@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { ArrowUp, ArrowUpRight, Check, CheckCheck, ChevronRight, ExternalLink, FileCheck2, FileSpreadsheet, Layers3, Printer, Search, Users } from 'lucide-react';
 import { useI18n } from '../i18n';
+import { assetUrl } from '../site';
 import { amount, CODE_LABELS, issueCopy } from '../presentation';
 import type { Holder, Result } from '../types';
 import evidence from './evidence.json';
@@ -17,12 +18,12 @@ function routeSection(hash: string): Section {
   return SECTIONS.find(section => section === id) || 'overview';
 }
 function Reference({ href, children }: { href: string; children: ReactNode }) {
-  return <a href={href} target="_blank" rel="noreferrer" className="product-reference">{children}<ExternalLink size={13} aria-hidden="true"/></a>;
+  return <a href={href.startsWith('/') ? assetUrl(href) : href} target="_blank" rel="noreferrer" className="product-reference">{children}<ExternalLink size={13} aria-hidden="true"/></a>;
 }
 function Illustration({ scene }: { scene: 'review' | 'handoff' }) {
   const { t } = useI18n();
   return <figure className={`product-illustration product-illustration-${scene}`}>
-    <img src={scene === 'review' ? '/project/payout-review.webp' : '/project/report-handoff.webp'} width={1200} height={800} loading="lazy" decoding="async"
+    <img src={assetUrl(scene === 'review' ? 'project/payout-review.webp' : 'project/report-handoff.webp')} width={1200} height={800} loading="lazy" decoding="async"
       alt={t(scene === 'review' ? '运营人员在电脑与三份记录之间逐人核对收益发放的场景插画' : '运营人员向负责人交付复查报告与原始依据的场景插画')}/>
     <figcaption>{t('场景插画，不是真实客户影像')}</figcaption>
   </figure>;
@@ -70,7 +71,7 @@ export default function ProjectStory({ active, hash, onOpenTool }: { active: boo
   const issueText = issueCopy(issue, language);
   const noPrompt = demo.holders.filter(holder => holder.issue_codes.length === 0).length;
   const unknownPayments = demo.anomalies.filter(item => item.code === 'UNMATCHED_WALLET').length;
-  const screenshot = language === 'zh' ? '/project/core-review.png' : '/project/core-review-en.png';
+  const screenshot = assetUrl(language === 'zh' ? 'project/core-review.png' : 'project/core-review-en.png');
   function goTo(section: Section) {
     if (routeSection(window.location.hash) === section) document.getElementById(`project-${section}`)?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
     else window.location.hash = `/project/${section}`;

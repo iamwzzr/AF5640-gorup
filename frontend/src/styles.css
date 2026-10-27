@@ -143,6 +143,7 @@ main { padding: 10px 0 0; }
 .advanced-settings[open] > summary { border-bottom: 1px solid var(--border); }
 .info-strip { display: flex; align-items: flex-start; gap: 12px; padding: 16px 18px; background: #eaf0f2; color: #435e68; border-radius: 6px; margin-top: 20px; font-size: 14px; line-height: 1.8; }
 .info-strip > svg { margin-top: 3px; }
+.pages-runtime-note { margin: 0 0 24px; }
 .bottom-actions { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 26px; }
 .bottom-actions > p { font-size: 14px; }
 .upload-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }

@@ -50,7 +50,13 @@ cd AF5640-gorup
 - “查看详情”分为“哪里需要注意、接下来怎么做、去哪里查”。完整地址、交易编号、系统检查原文和文件校验码按需展开，所有金额保留完整有效精度。
 - 手机端将明细显示为带字段名的信息卡；搜索、筛选、翻页、查看详情和报告下载均可使用。支持键盘操作、可见焦点与 Escape 关闭详情。
 
-更改规则或文件后，旧结果会失效，需要重新核对。所有金额以字符串返回，前端不重新进行金额运算。示例及输入的付款状态是提交数据的声明，不是现场查询到的链上状态。
+更改规则或文件后，旧结果会失效，需要重新核对。所有金额以字符串返回，JavaScript 不重新进行金额运算。示例及输入的付款状态是提交数据的声明，不是现场查询到的链上状态。
+
+## GitHub Pages
+
+已添加 `main` 推送后自动检查、构建并部署的工作流。仓库管理员需先在 [Settings → Pages](https://github.com/iamwzzr/AF5640-gorup/settings/pages) 将 Source 设为 **GitHub Actions**；当前配置账号只有推送权限，首次启用尚需管理员完成。启用并部署成功后的地址为 <https://iamwzzr.github.io/AF5640-gorup/>。
+
+Pages 版支持上传、核对和下载报告：在浏览器中运行原有 Python 核对代码，无需另配服务器，文件不上传。首次检查表格时会加载计算功能；本地启动仍使用 FastAPI。构建方法、一次性设置与验证说明见 [GitHub Pages 发布](docs/GITHUB_PAGES.md)。
 
 ## 产品介绍与试用
 
@@ -107,6 +113,8 @@ backend/.venv/bin/python scripts/generate_project_evidence.py
 - `frontend/src/project/`：连续滚动的产品介绍页、交互预览与程序生成的合成证据。
 - `frontend/src/i18n.tsx`、`locale.ts`、`translations/`：语言偏好、无损字符串插值、中英文系统文案；核对金额与输入数据不在翻译层计算或修改。
 - `backend/app/`：API、数据结构、CSV解析、精确核对及报告生成。
+- `frontend/src/browser-runtime/`：Pages 静态网站的 Python Worker、请求适配及取消处理；复用 `backend/app/` 的校验、计算和导出模块。
+- `.github/workflows/pages.yml`：`main` 自动检查并发布 Pages；`frontend/scripts/` 准备经过校验的自托管 Python 依赖，并运行跨环境回归。
 - `sample-data/`：可编辑的演示输入。
 - `docs/API_CONTRACT.md`：前后端字段与接口约定。
 - `scripts/generate_examples.py`：生成合成数据。

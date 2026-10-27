@@ -7,10 +7,13 @@
     "dev": "vite --host 127.0.0.1",
     "test": "node --experimental-strip-types --test tests/*.test.mjs",
     "build": "tsc -b && vite build",
+    "build:pages": "node scripts/prepare-pages.mjs && tsc -b && vite build --mode pages --outDir dist-pages",
+    "test:pages": "node scripts/check-browser-engine.mjs",
     "preview": "vite preview --host 127.0.0.1"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
+    "pyodide": "314.0.7",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },

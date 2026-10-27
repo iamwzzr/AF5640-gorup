@@ -1,4 +1,5 @@
 export const TOOL_ENGLISH: Record<string, string> = {
+  '本页在浏览器中核对表格，文件不会上传到服务器。首次使用会加载核对功能，请稍等片刻。': 'Files are reviewed in your browser and are not uploaded to a server. The first review may take a moment to load.',
   '填写规则': 'Set payout rules',
   '上传表格': 'Upload files',
   '查看结果': 'Review results',
