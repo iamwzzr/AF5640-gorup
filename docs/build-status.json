@@ -39,7 +39,8 @@
     "2026-10-27 Pages: project-prefix static build and actionlint workflow validation passed; all Python runtime dependencies self-hosted and SHA256 verified",
     "2026-10-27 Pages: 34 existing business and published-evidence regressions passed in Python/WASM; all three scenarios validated, reconciled and exported; complete core/comprehensive results and fingerprints match server evidence",
     "2026-10-27 static browser: 100-person real review, exact one-millionth amounts, retained language/filter/navigation state, malformed CSV blocking and CRC-checked five-file ZIP download passed without API or external requests",
-    "2026-10-27 static browser: input edits abort the worker and block obsolete results; edited payment CSV recomputes totals; readable worker-load failure and successful retry passed; 390px introduction/import have no document overflow"
+    "2026-10-27 static browser: input edits abort the worker and block obsolete results; edited payment CSV recomputes totals; readable worker-load failure and successful retry passed; 390px introduction/import have no document overflow",
+    "2026-10-27 clean npm ci: explicitly pinned Node type definitions; 30 frontend tests, project-prefix Pages build and 34 browser Python regressions passed after fixing a clean Linux CI missing-type failure"
   ],
   "scenario_results": {
     "core": {
@@ -125,8 +126,8 @@
     "docs/preview.jpg": "430805b11533a93513f467bcb42632d664848171ca883bf0e212c9e659413200",
     "docs/project-story-preview.jpg": "ef3af0a1e7e6bba0c07a70820fd9319367f49b502adb6d3f07f1d30fa384572c",
     "frontend/index.html": "d39688019dfaf40ad183a6cb4834a27407089df10a91ba8330f5645f7d03276b",
-    "frontend/package-lock.json": "9fc65c96599ea94bd6431491d4999f4ae5dc0cf1be96dc558ef55b142ba8eaad",
-    "frontend/package.json": "88399855cb6e93e3db7edf204b204d705f04eea03c83428490da40d3fe3b89e0",
+    "frontend/package-lock.json": "ec205c0123ee55b10f828b06997f440a66d85cd966ddc82a7c2c194b840a9b38",
+    "frontend/package.json": "7abfea1cde73b300aa1121324c8d1efc4a4e0a44ff6f78ba12ed627b13fbdc37",
     "frontend/public/favicon.svg": "4ec0ec383321fb964658e4d80ee2216156fda27ffdb02ea533009789673b6733",
     "frontend/public/project/core-review.png": "0be0bcdf0ad9abb160e82386fb89d5dc570e0b7a0bb2af693c2a7fcc38b6b0d1",
     "frontend/src/App.tsx": "a1d53d8836e64c6554eb3a610dfaee15a89516f4d80c7314d806b6d4cc2d038e",
@@ -193,7 +194,8 @@
     "Subminute timezone offsets silently changing serialized rule timestamps",
     "HTTP 200 HTML being downloaded as a ZIP report",
     "Visible unknown-wallet labels missing from search and inconsistent whitespace handling",
-    "Unknown-wallet warnings generated from an invalid holder snapshot"
+    "Unknown-wallet warnings generated from an invalid holder snapshot",
+    "Node type declarations were implicit locally and missing in a clean CI install; pinned @types/node as a direct development dependency"
   ],
   "browser_checks": {
     "comprehensive_workflow": "passed",
